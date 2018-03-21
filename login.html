@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Almacen PWA</title>
+  <link rel="stylesheet" type="text/css" href="styles/inline.css"> 
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Almacen PWA">
+  <link rel="apple-touch-icon" href="images/almacen.png">
+  <meta name="msapplication-TileImage" content="images/almacen.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+
+
+</head>
+<body>
+  <header class="header">
+    <h1 class="header__title">  Login</h1>   
+  </header>
+  <main class="main">
+
+    <div class="container" > 
+       <form>                        
+
+          <div class="divUsuario">
+             <label for="inputUsuario"> <span class="glyphicon glyphicon-user"> Usuario:</label>
+             <input type="text" id="inputUsuario"  class="form-control"   placeholder="usuario" >
+             <div class="nombreusuario"></div>
+          </div>
+          <br>
+          <div class="divpwd"> 
+             <label for="inputpwd"> <span class="glyphicon glyphicon-lock"></span> Password:</label>
+             <input type="password" id="inputpwd"  class="form-control"  placeholder="Password" >
+          </div>
+          
+          
+          <br>
+          <button  type="button" class="btn btn-primary" id="butIngresar" > <span class="glyphicon glyphicon-off"> Ingresar</button>        
+          <button  type="button" class="btn btn-primary" id="butNuevoUsuario" >Nuevo Usuario</button>
+          <button  type="button" class="btn btn-primary hide" id="butLogOut" >Cerrar Sesión</button>
+          
+      </form>
+    </div>  
+  </main>
+  <script src="scripts/app.js" async></script>  
+  <script src="scripts/login.js" async></script>
+</body>
+</html>

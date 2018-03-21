@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Almacen PWA</title>
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+
+  <!-- TODO add manifest here -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Almacen PWA">
+  <link rel="apple-touch-icon" href="images/almacen.png">
+  <meta name="msapplication-TileImage" content="images/almacen.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+
+  <link href="bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" >  
+
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/alert.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/modal.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/dropdown.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/scrollspy.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tab.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tooltip.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/popover.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/button.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/collapse.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/carousel.js"></script>      
+  <script src="js/bootstrap-typeahead-fork.js"></script>  
+
+  <link href="dist/jquery.bootgrid.css" rel="stylesheet"> 
+  <script src="dist/jquery.bootgrid.js"></script>     
+
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>  
+
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title"> Listado de Facturas de Proveedor Detalle ADDENDA</h1> 
+  </header>
+
+  <main class="main">
+    <div class="container"  id="Contenedor" > 
+  
+       <form role="form"  id="myForm" >
+         <div class="card cardTemplate articulo-forecast form-group " > 
+          <input type="hidden" id="KEYEntrada" value="" >
+          <input type="hidden" id="KEYDEntradaDetalle" value="" >          
+          <div class="divFactura">
+             <label for="inputFactura">Factura:</label>
+             <input type="text" id="inputFactura"  class="form-control"  disabled >
+          </div>
+          <div class="divProvedor">
+             <label for="inputProveedor">Proveedor:</label>
+             <input type="hidden" id="KEYPRoveedor" value="" >
+             <input type="text" id="inputProveedor"  class="form-control"  disabled >
+             <input type="text" id="DescripcionProveedor"  class="form-control" disabled>                
+          </div>
+          <br>
+          <button  type="button" class="btn btn-primary" id= "butListar">Buscar</button>
+          <button  type="button" class="btn btn-primary" id= "butFactura">Factura</button>          
+        </div>
+      </form>
+	    <div id="lista" hidden >
+			<table   id="grid-data" class="table table-responsive  table-hover table-striped">
+		      <thead>
+		        <tr>
+              <th data-column-id="KEY"  data-identifier="true" data-visible="false" >ID</th>
+		          <th data-column-id="IdFacturaProveedor"  data-visible="false" >idFacturaProveedor</th>    
+		          <th data-column-id="ClaveOficialSSA"   data-visible="true" >ClaveOficialSSA</th>
+		          <th data-column-id="ClavePresentacionSSA"   data-visible="true" >ClavePresentacionSSA</th>
+		          <th data-column-id="Codigo_barras"    data-visible="true" >CodigoBarra</th>
+		          <th data-column-id="Lote"           data-visible="true"  >Lote</th>
+		          <th data-column-id="FechaCaducidad"   data-visible="false" >FechaCaducidad</th>
+		          <th data-column-id="Cantidad"  data-headerAlign ="center"  data-align ="right" >Cantidad</th>
+		          <th data-column-id="Precio"  data-headerAlign ="right"  data-align ="right"  data-visible="false"  >Costo</th>
+		          <th data-column-id="SubTotal"  data-headerAlign ="right"  data-align ="right"   data-visible="false" >SubTotal</th>
+ 				      <th data-column-id="Total"  data-headerAlign ="right"  data-align ="right"  data-visible="false">Total</th>		          
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"  >Comandos</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		      </tbody>
+		    </table>
+        <button id="select-btn">SELECT</button>
+        <button id="unselect-btn">UNSELECT</button>
+	    </div>
+      
+    </div>
+  </main>
+
+  <script src="scripts/bd.js" async></script>
+  <script src="scripts/app.js" async></script>
+  <script src="scripts/ListadeFacturasEDetADD.js" async></script>  
+
+
+</body>
+</html>

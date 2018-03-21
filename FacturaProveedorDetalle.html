@@ -1,0 +1,140 @@
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Almacen PWA</title>
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+
+  <!-- TODO add manifest here -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Almacen PWA">
+  <link rel="apple-touch-icon" href="images/almacen.png">
+  <meta name="msapplication-TileImage" content="images/almacen.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+
+
+  <link href="bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" >  
+
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/alert.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/modal.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/dropdown.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/scrollspy.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tab.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tooltip.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/popover.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/button.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/collapse.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/carousel.js"></script>    
+  <script src="js/bootstrap-typeahead-fork.js"></script>     
+
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title"> Detalle de Factura del proveedor</h1>
+  </header>
+
+  <main class="main">
+    <div class="container"  id="Contenedor" > 
+       <form  id="myForm" role="form">
+         <div class="card cardTemplate articulo-forecast form-group">          
+          <input type="hidden" id="KEYEntrada" value="" >
+          <input type="hidden" id="KEYDEntradaDetalle" value="" >          
+          <div class="divFactura">
+             <label for="inputFactura">Factura:</label>
+             <input type="text" id="inputFactura"  class="form-control"  disabled >
+          </div>
+
+
+          <div class="divProvedor">
+             <label for="inputProveedor">Proveedor:</label>
+             <input type="hidden" id="KEYPRoveedor" value="" >
+             <input type="text" id="inputProveedor"  class="form-control"  disabled >
+             <input type="text" id="DescripcionProveedor"  class="form-control" disabled>                
+          </div> 
+          <div class="divFacturaDetalle">
+             <label for="inputFactura">Factura Detalle:</label>
+             <input type="text" id="inputFacturaDetalle"  class="form-control"  disabled >
+          </div>
+          <div class="divCodigoBarras">
+             <label for="inputCodigoBarras">Codigo de barras:</label>
+             <input type="hidden" id="KEYCodigodeBarras" value="" >
+             <input type="text" id="inputCodigoBarras"  class="form-control"  >
+             <input type="text" id="inputNombreComercial"  class="form-control" disabled>   
+             <button  type="button" class="btn btn-primary" id= "butBucarCodigoBarras" >Buscar</button>
+             <div class="descripcionCodigoBarras"></div>
+          </div>  
+          <div class="divClaveOficial">         
+             <label for="inputClaveOficial">Clave Oficial:</label>
+             <input type="hidden" id="KEYProducto" value="" >
+             <input type="text" id="inputClaveOficial"  class="form-control"  >
+             <input type="text" id="DescripcionProducto"  class="form-control" disabled>   
+
+             <button  type="button" class="btn btn-primary" id= "butBucarProducto" >Buscar</button>
+          </div>      
+          <div class="divPresentacion">
+          	 <input type="hidden" id="KEYPresentacion"  value="">
+             <label for="inputPresentacion">Presentacion:</label>             
+             <input type="text" id="inputPresentacion"  class="form-control">             
+             <input type="text" id="DescripcionPresentacion"  class="form-control" disabled>   
+             <button  type="button" class="btn btn-primary" id= "butBucarPresentaciones" >Buscar</button>
+          </div>          
+          <div class="divLote">         
+             <label for="inputLote">Lote:</label>
+             <input type="text" id="inputLote"  class="form-control"  >
+          </div>
+          <div class="divFCaducidad">         
+             <label for="inputfcaducidad">Fecha Caducidad:</label>
+             <input type="date" id="inputFCaducidad"  class="form-control"  >
+          </div>
+          <div class="divCantidad">
+            <label for="inputCantidad">Cantidad:</label>
+            <input type="number" id="inputCantidad"  class="form-control" >
+          </div>
+          <div class="divCosto">
+            <label for="inputCosto">Costo:</label>
+            <input type="number" id="inputCosto"  class="form-control" >
+          </div>
+          <div class="divSubTotal">
+            <label for="inputSubTotal">SubTotal:</label>
+            <input type="number" id="inputSubTotal"  class="form-control" disabled>
+          </div>          
+          <div class="divIVA">
+            <label for="inputIVA">IVA:</label>
+            <input type="number" id="inputIVA"  class="form-control" disabled >
+          </div> 
+          <div class="divTotal">
+            <label for="inputSubTotal">Total:</label>
+            <input type="number" id="inputTotal"  class="form-control" disabled>
+          </div>     
+          <div class="divObservaciones">
+            <label for="inputObservaciones">Observaciones:</label>
+            <input type="text" id="inputObservaciones"  class="form-control" >
+          </div>
+          
+          <br>
+          <button  type="button" class="btn btn-primary" id= "butNuevo">Nuevo</button>
+          <button  type="button" class="btn btn-primary" id= "butListarDetalleFactura">ListarDetalle</button>
+          <button  type="button" class="btn btn-primary" id= "butFactura">Factura</button>          
+          <button  type="button" class="btn btn-primary" id= "butGuardar" >Guardar</button>          
+                   
+        </div>
+      </form>
+    </div>
+  </main>
+  
+  <script src="scripts/app.js" async></script>  
+  <script src="scripts/bd.js" async></script>   
+  <script src="scripts/FacturaProveedorDetalle.js" async></script> 
+
+</body>
+</html>

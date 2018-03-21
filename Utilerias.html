@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Almacen PWA</title>
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+
+  <!-- TODO add manifest here -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Almacen PWA">
+  <link rel="apple-touch-icon" href="images/almacen.png">
+  <meta name="msapplication-TileImage" content="images/almacen.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+
+  <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>  
+  <link  href="bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" >  
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/alert.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/modal.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/dropdown.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/scrollspy.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tab.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/tooltip.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/popover.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/button.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/collapse.js"></script>
+  <script type="text/javascript" src="bootstrap-3.3.7/carousel.js"></script>   
+
+
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title">Utilerias</h1>  
+  </header>
+
+  <main class="main">
+    <div class="container"  id="Contenedor"> 
+       <form id="myForm">
+         <div class="card cardTemplate articulo-forecast form-group " >      
+          <label >hola mundo</label>
+           <button  type="button" class="btn btn-primary" id= "butInsertarProveedores">Insertar Proveedores</button>
+           <button  type="button" class="btn btn-primary" id= "butInsertarPresentaciones">Insertar Presentaciones<utton>
+           <button  type="button" class="btn btn-primary" id= "butInsertarProductos" >Insertar Productos</button>      
+           <button  type="button" class="btn btn-primary" id= "butInsertarCodigosdeBarras" >Insertar Codigos de barras</button>                
+
+        </div>
+      </form>
+    </div>    
+  </main>
+
+  <script src="scripts/app.js" async></script>
+  <script src="scripts/bd.js" async></script>
+  <script src="scripts/Utilerias.js" async></script>
+
+
+</body>
+</html>
+
+

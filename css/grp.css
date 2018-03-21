@@ -1,0 +1,473 @@
+/* Custom container */
+.container-narrow {
+    margin: 0 auto;
+    max-width: 700px;
+}
+
+.container-narrow > hr {
+    margin: 30px 0;
+}
+
+/* Main market  .jumbotron {
+ing message and sign up button
+  margin: 60px 0;
+  text-align: center;
+}
+*/
+.jumbotron h1 {
+    font-size: 72px;
+    line-height: 1;
+}
+
+.jumbotron .jbtn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+    margin: 60px 0;
+}
+
+.marketing p + h4 {
+    margin-top: 28px;
+}
+
+#list ul {
+    list-style: none;
+}
+
+.bootstrap-widget {
+
+    position: relative;
+    clear: both;
+
+    width: auto;
+
+    margin-bottom: 2em;
+
+    /*overflow: hidden;*/
+}
+
+.bootstrap-widget-header {
+
+    position: relative;
+
+    height: 40px;
+    /*line-height: 40px;*/
+
+    background-color: #f6f7f8;
+
+    border: 1px solid #d2d3d6;
+    border-left-color: #d3d6db;
+    border-right-color: #d3d6db;
+    border-bottom: 1px solid #e9eaed;
+
+    -webkit-background-clip: padding-box;
+}
+
+.bootstrap-widget-header .bootstrap-toolbar {
+    margin: 3px 2px;
+}
+
+.bootstrap-widget-header .bootstrap-toolbar ul.dropdown-menu i {
+    margin-left: -18px;
+    margin-right: 1px;
+}
+
+.bootstrap-widget-header h3 {
+
+    position: relative;
+    top: 2px;
+    left: 10px;
+
+    display: inline-block;
+    margin-right: 3em;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    line-height: 18px;
+
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, .5);
+}
+
+.bootstrap-widget-header [class^="icon-"], .bootstrap-widget-header [class*=" icon-"] {
+
+    display: inline-block;
+    margin-left: 13px;
+    margin-right: -2px;
+
+    font-size: 16px;
+    color: #555;
+    vertical-align: middle;
+
+}
+
+.bootstrap-widget-content {
+    padding: 20px 15px 15px;
+
+    background: #FFF;
+
+    border: 1px solid #ccc;
+}
+
+.bootstrap-widget-header + .bootstrap-widget-content {
+    border-top: none;
+
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-topright: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.bootstrap-widget-nopad .bootstrap-widget-content {
+    padding: 0;
+}
+
+/* Widget Content Clearfix */
+.bootstrap-widget-content:before,
+.bootstrap-widget-content:after {
+    content: "";
+    display: table;
+}
+
+.bootstrap-widget-content:after {
+    clear: both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.bootstrap-widget-content {
+    zoom: 1;
+}
+
+/* Widget Table */
+
+.bootstrap-widget-table .bootstrap-widget-content {
+    padding: 0;
+}
+
+.bootstrap-widget-table .table {
+    margin-bottom: 0;
+
+    border: none;
+}
+
+.bootstrap-widget-table .table tr td:first-child {
+    border-left: none;
+}
+
+.bootstrap-widget-table .table tr th:first-child {
+    border-left: none;
+}
+
+/* Widget Plain */
+.bootstrap-widget-plain {
+
+    background: transparent;
+
+    border: none;
+}
+
+.bootstrap-widget-plain .widget-content {
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+}
+
+/* Widget Box */
+.bootstrap-widget-box {
+
+}
+
+.bootstrap-widget-box .bootstrap-widget-content {
+    background: #E3E3E3;
+    background: #FFF;
+}
+
+#content {
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* gritter */
+/* ie6 trash */
+* html #gritter-notice-wrapper {
+    position: absolute;
+}
+
+* html .gritter-top {
+    margin-bottom: -10px;
+}
+
+* html .gritter-item {
+    padding-bottom: 0;
+}
+
+* html .gritter-bottom {
+    margin-bottom: 0;
+}
+
+* html .gritter-close {
+    background: url(../images/gritter-close-ie6.gif);
+    width: 22px;
+    height: 22px;
+    top: 7px;
+    right: 7px;
+}
+
+/* the norm */
+#gritter-notice-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 301px;
+    z-index: 9999;
+}
+
+.gritter-item-wrapper {
+    position: relative;
+    margin: 0 0 10px 0;
+    background: url('.'); /* ie7/8 fix */
+}
+
+.gritter-top {
+    background: url(../images/gritter-long.png) no-repeat left -30px;
+    height: 10px;
+}
+
+.hover .gritter-top {
+    background-position: right -30px;
+}
+
+.gritter-bottom {
+    background: url(../images/gritter-long.png) no-repeat left bottom;
+    height: 8px;
+    margin: 0;
+}
+
+.hover .gritter-bottom {
+    background-position: bottom right;
+}
+
+.gritter-item {
+    display: block;
+    background: url(../images/gritter-long.png) no-repeat left -40px;
+    color: #eee;
+    padding: 2px 11px 8px 11px;
+    font-size: 11px;
+    font-family: verdana;
+}
+
+.hover .gritter-item {
+    background-position: right -40px;
+}
+
+.gritter-item p {
+    padding: 0;
+    margin: 0;
+}
+
+.gritter-close {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    background: url(../images/gritter-long.png) no-repeat left top;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.gritter-title {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 7px 0;
+    display: block;
+    text-shadow: 1px 1px #000; /* Not supported by IE :( */
+}
+
+.gritter-image {
+    width: 29px;
+    height: 29px;
+    float: left;
+}
+
+.gritter-with-image,
+.gritter-without-image {
+    padding: 0 0 5px 0;
+}
+
+.gritter-with-image {
+    width: 220px;
+    float: right;
+}
+
+.bootstrap-widget-conciliacion-reporte {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    overflow: auto;
+    border-bottom: 2px solid #D5D5D5;
+}
+
+tr.catalogo-inactivo td {
+    color: red !important;
+}
+
+.catalogo-inactivo {
+    color: red;
+}
+
+.icon-print, .icon-edit, .icon-remove, .icon-ok, .icon-globe {
+    border: transparent solid 1px;
+}
+
+.icon-print:hover, .icon-edit:hover, .icon-remove:hover, .icon-ok:hover, .icon-globe:hover {
+    border: solid 1px;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.pagination.form-actions {
+    font-size: 13px;
+    width: 95% !important;
+    margin: 0 auto !important;
+    padding: 0px !important;
+    height: 100px;
+}
+
+.pagination.form-actions > .pull-left {
+    margin-left: 10px;
+    line-height: 3;
+}
+
+tr.movimiento-conciliado td {
+    color: rgb(42, 171, 64) !important;
+}
+
+.control-label-small {
+    float: left;
+    width: 120px;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.controls-small {
+    margin-left: 140px;
+}
+
+.control-label-mini {
+    float: left;
+    width: 80px;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.controls-mini {
+    margin-left: 100px;
+}
+
+hr {
+    border-top: 3px solid #eeeeee !important;
+}
+
+.k-upload li {
+    line-height: inherit;
+}
+
+.btn.btn-print {
+    max-width: 150px;
+    white-space: normal !important;
+    font-size: 10px !important;
+    line-height: 10px !important;
+}
+
+.btn.btn-print i {
+    padding-right: 5px;
+    float: left;
+}
+
+.btn.btn-print i.icon-print:hover {
+    border: transparent solid 1px;
+}
+
+.k-pager-numbers li {
+    line-height: 26px;
+}
+
+.typeahead.dropdown-menu {
+    z-index: 2500;
+}
+
+input.typeaheadselected {
+    border-right: 1ex solid rgb(42, 171, 64) !important;
+}
+
+button.typeahead-clean, button.datepicker-clean {
+    margin-left: -3ex !important;
+    padding-left: 1ex !important;
+    padding-right: 1ex !important;
+    position: absolute;
+    z-index: 10;
+    background-color: transparent;
+}
+
+button.typeahead-clean:active, button.datepicker-clean:active,
+button.typeahead-clean:focus, button.datepicker-clean:focus
+button.typeahead-clean:visited, button.datepicker-clean:visited {
+    background-color: transparent;
+    border: none;
+}
+
+input.typeaheadselected + button.typeahead-clean {
+    margin-left: -4ex !important;
+}
+
+input.typeaheadselected + button.typeahead-clean[disabled] {
+    border: none;
+}
+
+#filters-content .filter {
+    margin-right: 10px;
+}
+
+.input-block-level {
+    width: 100% !important;
+}
+
+#filters-content .input-prepend.input-append input.input-block-level {
+    width: 89% !important;
+}
+
+#establecimientos-content {
+    margin-top: -12px;
+}
+
+#establecimientos-content .filter {
+    margin-right: 10px;
+    margin-bottom: 0px !important;
+    min-height: 10px;
+!important;
+}
+
+#establecimientos-content label {
+    font-weight: bold;
+}
+
+#establecimientos-content #btnCambiarEstablecimiento {
+    margin-left: 15px;
+}

@@ -1,0 +1,165 @@
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    th {
+        font-family: Arial;
+        color: black;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tbody {
+        display: table-row-group;
+    }
+
+    header.onlyprint {
+        position: fixed;
+        top: 0;
+    }
+
+    .graph-7 {
+        background: url(images/fondo.png) no-repeat;
+    }
+
+    .graph-img img {
+        display: none;
+    }
+
+    .graph-img img {
+        display: inline;
+    }
+
+    #header {
+        display: none;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .navbar-fixed-top {
+        display: none;
+    }
+
+    .optionsArea {
+        display: none;
+    }
+
+    .printArea {
+        margin-top: -100px;
+        padding: 1cm;
+      /*  min-height: 23.6cm;*/
+    }
+
+    .printArea table tfoot{
+        font-weight: bold;
+    }
+
+    .page-overflow {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .allArea {
+        width: 100%;
+        margin-top: 0px;
+    }
+
+    #footer {
+        display: none;
+    }
+
+    .icon-print {
+        display: none;
+    }
+
+    input {
+        border: 0px;
+        border: none;
+    }
+
+    .bootstrap-widget-header h3 {
+        text-shadow: 0px 0px 0px;
+        text-shadow: none;
+        text-decoration: none;
+    }
+
+    @page{
+        size: letter;
+    }
+
+}
+
+@media screen {
+    .printArea {
+        -webkit-box-shadow: 0px 0px 10px 4px rgba(5, 5, 5, 0.3);
+        box-shadow: 0px 0px 10px 4px rgba(5, 5, 5, 0.3);
+        border: 1px solid #444;
+        padding: 0.7cm;
+        margin: auto;
+        position:relative;
+        margin-bottom: 50px;
+    }
+    .printArea table tfoot{
+        font-weight: bold;
+    }
+    .button {
+        display: inline-block;
+        border: 0;
+        border-radius: 0;
+        outline: 0;
+        background: #4e68c7;
+        box-shadow: 1px 0px 1px #203891, 0px 1px 1px #3852b1, 2px 1px 1px #203891, 1px 2px 1px #3852b1, 3px 2px 1px #203891, 2px 3px 1px #3852b1, 4px 3px 1px #203891, 3px 4px 1px #3852b1, 5px 4px 1px #203891, 4px 5px 1px #3852b1, 6px 5px 1px #203891;
+        color: white;
+        white-space: nowrap;
+        font-family: "Gotham Rounded A", "Gotham Rounded B", "proxima-nova-soft", sans-serif;
+        padding: 9px 16px;
+        line-height: 1.4;
+        position: relative;
+        top: -5px;
+    }
+
+    .allArea {
+        width: 85%;
+        margin: auto;
+        margin-top: 1em;
+    }
+
+    .optionsArea {
+        margin-bottom: 1em;
+    }
+
+    .footer {
+        display: none;
+    }
+
+
+}
+
+.firmas {
+    margin-top: 0.5cm;
+    /*position:absolute;*/
+   /* bottom:1cm;*/
+}
+
+.firmas > div{
+
+}
+
+.firmas > div div:first-child {
+    font-size: 11px;
+    text-align: center;
+}
+
+.firmas > div div:last-child {
+    border-bottom: 1px solid #000;
+    margin-top: 0.5cm;
+    text-align: center;
+}
