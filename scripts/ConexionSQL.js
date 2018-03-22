@@ -3,7 +3,46 @@
   var myUserName = 'Test';
   var myUserPassword = 'test1234';
   var serviceUrl = 'http://localhost:24706/';     
-  
+  var serviceUrl = 'http://10.0.180.13/testwcf/';       
+  var vlServidor ='';
+
+  function init() {
+      try{    
+          db.transaction(function (tx) {  
+          var vlsql=  "SELECT * FROM ctl_Configuracion WHERE id = 1";
+          //tx.executeSql("SELECT * FROM ctl_Presentaciones where idPresentacion = ? ", [vlIDPresentacion], function (tx, results) {
+          console.log(vlsql);
+          try{            
+            tx.executeSql(vlsql, [] , function (tx, results) {
+              var len = results.rows.length, i;
+              console.log( len);
+              if (len >0) {
+                console.log("Configuracion encontrada");
+                for (i = 0; i < len; i++) {
+                  vlServidor = results.rows.item(i).Servidor;
+                  console.log (serviceUrl);
+                  if (vlServidor !='' ){
+                    serviceUrl= vlServidor
+                    console.log (serviceUrl);
+                  }
+                }
+              }
+            }); 
+          } catch(e) {
+            alert("Error processing SQL: "+ e.message);
+            return;
+          }
+        });             
+      } catch(e) {
+        alert("Error processing SQL: "+ e.message);
+        return;
+      }
+
+      return ;
+  }
+
+
+
   function getHeaders() {
        //btoa is a built in browser cmd for encode Base64
       return { 'Authorization': "Basic " + btoa("test:testpw") };
@@ -73,14 +112,15 @@
       } catch(e) {
         alert("Error processing SQL: "+ e.message);
         return;
-      };
-
-   
+      };   
   });   
 
 
   $('#butBajarFacturas').click( function() { 
     console.log ('Bajando facturas');
+
+
+
     $.ajax({
       headers: getHeaders(),
       url: serviceUrl + "MyService.svc/Facturas",
@@ -338,5 +378,6 @@
       },
       error: function (xhr) { console.log(xhr.responseText); }
     });
-
   }); 
+
+  init();
