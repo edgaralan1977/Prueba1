@@ -9,7 +9,6 @@ var filesToCache = [
   'images/logo_salud.png',  
   'bootstrap-3.3.7/bootstrap.min.css',
   'bootstrap-3.3.7/bootstrap.min.js',
-
   'bootstrap-3.3.7/alert.js',
   'bootstrap-3.3.7/modal.js',
   'bootstrap-3.3.7/dropdown.js',
@@ -60,8 +59,21 @@ var filesToCache = [
   'ListadeFacturasdeProveedorDetalle.html',
   'scripts/ListadeFacturasdeProveedorDetalle.js',
   'scripts/FacturaProveedorDetalle.js',
-  'FacturaProveedorDetalle.html'
-
+  'FacturaProveedorDetalle.html',
+  'FacturaE.html',
+  'FacturaEDetADD.html',
+  'FacturaEDetFE.html',
+  'ListadeFacturasE.html',
+  'ListadeFacturasEDetADD.html',
+  'ListadeFacturasEDetFE.html',
+  'ListadeProveedoresCF.html',
+  'scripts/FacturaE.js',
+  'scripts/FacturaEDetADD.js',
+  'scripts/FacturaEDetFE.js',
+  'scripts/ListadeFacturasE.js',
+  'scripts/ListadeFacturasEDetADD.js',
+  'scripts/ListadeFacturasEDetFE.js',
+  'scripts/ListadeProveedoresCF.js'
 ];
 
 
