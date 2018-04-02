@@ -28,7 +28,7 @@
  
  	appFB.auth().signInWithEmailAndPassword(UsuarioID, pwd)
  	 .then(function() {
-	 	btnCerrarSesion.classList.remove("hide");
+	 	//btnCerrarSesion.classList.remove("hide");
 		location.href ="menu.html";	  
 	}).catch(function(error) {
 	  // Handle Errors here.
@@ -78,15 +78,16 @@ $(document).ready(function(){
 	if (user) {
 
 		// User is signed in.
-		lblUsuarioActivo.innerHTML=user.email;
+		//lblUsuarioActivo.innerHTML=user.email;
 		console.log (user);
 	    txtUsuario.value =user.email;  		
-		
-		btnCerrarSesion.classList.remove("hide");	  
+ 		app.user = user.email;
+		//btnCerrarSesion.classList.remove("hide");	  
 	} else {
 
-		btnCerrarSesion.classList.add("hide");	  
-		lblUsuarioActivo.innerHTML="";
+		//btnCerrarSesion.classList.add("hide");	  
+		//lblUsuarioActivo.innerHTML="";
+		app.user = "";
 	    // No user is signed in.
 	    //location.href ="login.html";
 	}

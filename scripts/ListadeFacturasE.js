@@ -74,10 +74,10 @@ $(document).ready(function(){
 		
 	  vlBuscar = $('#inputBuscar').val();      
 
-  	  if (vlBuscar.length < 1) {
-  	  	  alert("Captura al menos 1 caracteres para hacer la busqueda");
-	      return false;    		
-  	  }
+  	  //if (vlBuscar.length < 1) {
+  	  //  alert("Captura al menos 1 caracteres para hacer la busqueda");
+	  //    return false;    		
+  	  //}
   	
 	  $('#lista').show();		  	
   	

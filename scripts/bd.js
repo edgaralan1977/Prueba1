@@ -153,6 +153,15 @@ database.initDB();
 
     }
 
+    try{
+      db.transaction(function (tx) {              
+         tx.executeSql("CREATE TABLE IF NOT EXISTS ctl_Configuracion (id INTEGER PRIMARY KEY AUTOINCREMENT ,Servidor , dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))");
+      });   
+    } catch(e) {
+      alert("Error processing SQL: "+ e.message);
+
+    }
+
 
 // CREATE TABLE IF NOT EXISTS ctl_Presentaciones (id INTEGER PRIMARY KEY AUTOINCREMENT, idPresentacion unique, Descripcion , dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))          
 // CREATE TABLE IF NOT EXISTS ctl_Productos (id INTEGER PRIMARY KEY AUTOINCREMENT, idClaveOficial unique, Descripcion  ,  TipoMI  ,idPartida ,ManejaLotes, IVAP , dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))             

@@ -1,3 +1,21 @@
+
+
+  var app = {
+    isLoading: true,
+    Usuario:""
+  };
+
+  var config = {
+    apiKey: "AIzaSyADt2_Wv1gkY_3rgALye_asBEy_SYpsy1Y",
+    authDomain: "compact-env-179000.firebaseapp.com",
+    databaseURL: "https://compact-env-179000.firebaseio.com",    
+    projectId: "compact-env-179000",
+    storageBucket: "compact-env-179000.appspot.com",
+    messagingSenderId: "846827897011"
+  };
+
+  var appFB = firebase.initializeApp(config); 
+
 (function() {
   'use strict';
 
@@ -17,86 +35,62 @@
     vlstr +='   </div> ';
     vlstr +=' </nav> ';
 
-
   $(".main").prepend(vlstr);
-  
-    var app = {
-    isLoading: true,
-    Usuario:"",
-    //visibleCards: {},
-    //selectedCities: [],
-    //spinner: document.querySelector('.loader'),
-    //cardTemplate: document.querySelector('.cardTemplate'),
-    
-    //addDialog: document.querySelector('.dialog-container'),
-    container: document.querySelector('.main')
-  };
 
 
-
-
-    // var config = {
-    //   apiKey: "AIzaSyADt2_Wv1gkY_3rgALye_asBEy_SYpsy1Y",
-    //   authDomain: "compact-env-179000.firebaseapp.com",
-    //   databaseURL: "https://compact-env-179000.firebaseio.com",    
-    //   projectId: "compact-env-179000",
-    //   storageBucket: "compact-env-179000.appspot.com",
-    //   messagingSenderId: "846827897011"
-    // };
-  
-    // var appFB = firebase.initializeApp(config); 
  
   const btnCerrarSesion = document.getElementById('butLogOut');
   const lblUsuarioActivo = document.getElementById('lblUsuario');
   const btnAbrirSesion = document.getElementById('butLogIN');
 
   
-  // appFB.auth().onAuthStateChanged(function(user) {
-  //   if (user) {     
-  //     console.log(user.email);
-  //     // User is signed in.
-  //     lblUsuarioActivo.innerHTML=user.email;
-  //     btnCerrarSesion.classList.remove("hide");   
-  //     btnAbrirSesion.classList.add("hide");               
-  //     $('#Contenedor').show();  
-  //   } else {
-  //     console.log('Ningun usuario esta logeado');
-  //     // No user is signed in.
-  //     btnCerrarSesion.classList.add("hide");
-  //     btnAbrirSesion.classList.remove("hide");    
-  //     lblUsuarioActivo.innerHTML="";    
+  appFB.auth().onAuthStateChanged(function(user) {
+    if (user) {     
+      console.log(user.email);
+      // User is signed in.
+      lblUsuarioActivo.innerHTML=user.email;
+      app.user = user.email;
+      btnCerrarSesion.classList.remove("hide");   
+      btnAbrirSesion.classList.add("hide");               
+      $('#Contenedor').show();  
+    } else {
+      console.log('Ningun usuario esta logeado');
+      // No user is signed in.
+      btnCerrarSesion.classList.add("hide");
+      btnAbrirSesion.classList.remove("hide");  
+      lblUsuarioActivo.innerHTML="";    
+      app.user = ""; 
+      $('#Contenedor').hide();  
+    }
+  });
 
-  //     $('#Contenedor').hide();  
-  //   }
-  // });
+  $('#butLogOut').click( function() { 
+  appFB.auth().signOut().then(function() {
+    // Sign-out successful.
+    btnCerrarSesion.classList.add("hide");
+    btnAbrirSesion.classList.remove("hide");      
+    location.href ="login.html";
+  }).catch(function(error) {
+    // An error happened.
+    btnCerrarSesion.classList.remove("hide");  
+    //btnAbrirSesion.classList.add("hide");     
+  });
+  }); 
 
-  // $('#butLogOut').click( function() { 
-  // appFB.auth().signOut().then(function() {
-  //   // Sign-out successful.
-  //   btnCerrarSesion.classList.add("hide");
-  //   btnAbrirSesion.classList.remove("hide");      
-  //   location.href ="login.html";
-  // }).catch(function(error) {
-  //   // An error happened.
-  //   btnCerrarSesion.classList.remove("hide");  
-  //   //btnAbrirSesion.classList.add("hide");     
-  // });
-  // }); 
+  $('#butLogIN').click( function() {  
+   location.href ="login.html";
+  }); 
 
-  // $('#butLogIN').click( function() {  
-  //  location.href ="login.html";
-  // }); 
-
-  //   function Right(str, n){
-  //     if (n <= 0)
-  //        return "";
-  //     else if (n > String(str).length)
-  //        return str;
-  //     else {
-  //        var iLen = String(str).length;
-  //        return String(str).substring(iLen, iLen - n);
-  //     }
-  // }
+    function Right(str, n){
+      if (n <= 0)
+         return "";
+      else if (n > String(str).length)
+         return str;
+      else {
+         var iLen = String(str).length;
+         return String(str).substring(iLen, iLen - n);
+      }
+  }
 
 
 
