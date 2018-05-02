@@ -138,7 +138,7 @@ $(document).ready(function(){
         var grid = $("#grid-data").bootgrid({
 			rowSelect:true,
 			keepSelection:true,
-			navigation:1,
+			navigation:2,
 		    rowCount: [ 10, 50, 75,-1],			
 			labels: {
 		        noResults: "Sin datos",
@@ -167,4 +167,14 @@ $(document).ready(function(){
     }
 
     init();
+
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
+
+	    
 });

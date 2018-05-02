@@ -275,7 +275,6 @@ $(document).ready(function(){
 			alert("Error processing SQL: "+ e.message);
 			return;
 		}
-
 	});	
 	
 	
@@ -284,6 +283,14 @@ $(document).ready(function(){
 		$('#inputClaveOficial').val(vlKEYProducto);		
 		fnBuscarKEY();
 	}
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
+
 
 });
 

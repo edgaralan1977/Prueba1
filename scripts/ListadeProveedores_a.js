@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
 	var objProveedores ;
 	fnCargarProveedores();
 	var objProveedores2 =localStorage.getItem("objProveedores");	
@@ -9,15 +8,10 @@ $(document).ready(function(){
 		console.log (objProveedores);
 	}	
 
-    var vlKEYRFCProveedor = localStorage.getItem("RFCProveedor");	
-    $('#inputBuscar').val(vlKEYRFCProveedor);
 
     function init()
     {
-    	//VASJ590823GD3
-    	
-
-        localStorage.setItem("KEYEntrada", "");
+        localStorage.setItem("IDProveedor", "");
         var grid = $("#grid-data").bootgrid({
 			rowSelect:true,
 			keepSelection:true,
@@ -25,9 +19,7 @@ $(document).ready(function(){
 		    rowCount: [ 10, 50, 75,-1],			
 			labels: {
 		        noResults: "Sin datos",
-		        infos: 'Del {{ctx.start}} al {{ctx.end}} de {{ctx.total}} ',
-		        search : 'Buscar',
-		        all : 'Todos'		        
+		        infos: 'Del {{ctx.start}} al {{ctx.end}} de {{ctx.total}} '
 		    },			
             formatters: {
 		        "commands": function(column, row)
@@ -40,16 +32,17 @@ $(document).ready(function(){
 		    grid.find(".command-edit").on("click", function(e)
 		    {
 		        console.log("You pressed edit on row: " + $(this).data("row-id"));
-			    localStorage.setItem("KEYEntrada", $(this).data("row-id"));
-			    location.href ="ListadeFacturasEDetFE.html";
+			    localStorage.setItem("KEYProveedor", $(this).data("row-id"));
+			    location.href ="Proveedores.html";			        
 		        
 		    }).end().find(".command-delete").on("click", function(e)
 		    {
 		        alert("You pressed delete on row: " + $(this).data("row-id"));
 		    });
-		});	
-
-		fnLlenarDatos()	  
+		});
+			
+			
+		  
     }
     
     init();
@@ -65,6 +58,34 @@ $(document).ready(function(){
     });
 
 
+    function fnLlenarDatos1()
+    {
+      $("#grid-data").bootgrid("clear");
+	  var vlBuscar = "";
+		
+	  $('#lista').hide();			
+		
+	  vlBuscar = $('#inputBuscar').val();      
+
+  	  if (vlBuscar.length<3) {
+  	  	  alert("Captura mas de 2 caracteres para hacer la busqueda");
+	      return false;    		
+  	  }
+  	
+	  $('#lista').show();		  	
+  	
+      console.log("buscando "+ vlBuscar);    	
+    	
+
+		//console.log(vlstr);
+		//var obj = JSON.parse(vlstr);	
+	    $("#grid-data").bootgrid("append", objProveedores);
+
+
+	}
+
+
+
     function fnLlenarDatos()
     {
       $("#grid-data").bootgrid("clear");
@@ -74,47 +95,50 @@ $(document).ready(function(){
 		
 	  vlBuscar = $('#inputBuscar').val();      
 
-  	  //if (vlBuscar.length < 1) {
-  	  //  alert("Captura al menos 1 caracteres para hacer la busqueda");
-	  //    return false;    		
-  	  //}
+  	  if (vlBuscar.length<1) {
+  	  	  alert("Minimo debes escribir 1 caracter para hacer la busqueda")
+	      return false;    		
+  	  }
   	
 	  $('#lista').show();		  	
   	
       console.log("buscando "+ vlBuscar);    	
     	
-	 //  var ListRef = appFB.database().ref('Entradas');    	
-	 //  ListRef.orderByChild("Proveedor").startAt(vlBuscar).endAt(vlBuscar +"\uf8ff").once("value", function(snapshot) {
-	 //  		snapshotList = snapshot.val();
-	 //  		if (snapshotList ){
-	 //  			console.log( JSON.stringify(snapshotList ) );	  			
-		// 		vlstr =" [";
-		// 		snapshot.forEach(function(snapshotItem) {
-		// 		    var childKey = snapshotItem.key;
-		// 		    var childData = snapshotItem.val();
-		// 	  		vlstr = vlstr +' {';
-		// 	  		vlstr = vlstr +' 	"KEY":"'+ childKey + '", ';		  		
-		// 	  		vlstr = vlstr +' 	"Proveedor":"'+ childData.Proveedor + '", ';
-		// 	  		vlstr = vlstr +' 	"Fecha":"'+ childData.Fecha + '", ';			  		
-		// 	  		vlstr = vlstr +' 	"FacturaProveedor":"'+ childData.FacturaProveedor + '"';
-		// 	  		vlstr = vlstr +' },';	
-		// 		});
-		// 		vlstr = vlstr.slice(0,-1);		
-		// 		vlstr = vlstr +']';
-		// 		console.log(vlstr);
-		// 		var obj = JSON.parse(vlstr);	
-		//         $("#grid-data").bootgrid("append", obj);
-		
-		// 	}		
-		// });
+    	
+	//   var ListRef = appFB.database().ref('Proveedores');   
+	  
+	  
+	// //	ListRef.once('value').then(function(snapshotList) {
+	//   ListRef.orderByChild("Nombre").startAt(vlBuscar).endAt(vlBuscar +"\uf8ff").once("value", function(snapshot) {
+	//   		snapshotList = snapshot.val();
+	//   		console.log( JSON.stringify(snapshotList ) );
+	//   		if (snapshotList ){
+	  	
+	// 			vlstr =" [";
+	// 			snapshot.forEach(function(snapshotItem) {
+	// 			    var childKey = snapshotItem.key;
+	// 			    var childData = snapshotItem.val();
+	// 		  		vlstr = vlstr +' {';
+	// 		  		vlstr = vlstr +' 	"KEY":"'+ childKey + '", ';
+	// 		  		vlstr = vlstr +' 	"RFC":"'+ childData.RFC + '", ';
+	// 		  		vlstr = vlstr +' 	"Nombre":"'+ childData.Nombre + '"';
+	// 		  		vlstr = vlstr +' },';	
+	// 			});
+	// 			vlstr = vlstr.slice(0,-1);		
+	// 			vlstr = vlstr +']';
+	// 			console.log(vlstr);
+	// 			var obj = JSON.parse(vlstr);	
+	// 	        $("#grid-data").bootgrid("append", obj);
+	//       	}
+	// 	});
+
+
 
 		try{		
 	        db.transaction(function (tx) {	
 	        	//var vlsql=	"SELECT * FROM ctl_Presentaciones WHERE idPresentacion+ ' ' + Descripcion  LIKE  '%"+ vlBuscar +"%'"
 	        	//var vlsql=	"SELECT * FROM ctl_Presentaciones WHERE idPresentacion =  '"+ vlBuscar +"'"
-	        	var vlsql=	"SELECT A.* FROM alm_FacturasProveedor A  ";
-	        	vlsql += " INNER JOIN  ctl_Proveedores P ON A.RFC = P.RFC ";	        	
-	        	vlsql += " WHERE  P.Nombre   LIKE  '%"+ vlBuscar +"%' OR P.RFC  LIKE  '%"+ vlBuscar +"%'";
+	        	var vlsql=	"SELECT * FROM ctl_Proveedores WHERE  Nombre  LIKE  '%"+ vlBuscar +"%' OR RFC  LIKE  '%"+ vlBuscar +"%'"
 		 		console.log(vlsql);
 		 		try{
 			 		tx.executeSql(vlsql, [] , function (tx, results) {
@@ -125,10 +149,9 @@ $(document).ready(function(){
 
 					 		for (i = 0; i < len; i++) {
 				 		  		vlstr += ' {';
-				 		  		vlstr += ' 	"KEY":"'+ results.rows.item(i).id + '", ';
-				 		  		vlstr += ' 	"Proveedor":"'+ results.rows.item(i).RFC + '", ';
-					 	  		vlstr += ' 	"Fecha":"'+ results.rows.item(i).fecha + '",';
-					 			vlstr += ' 	"Folio":"'+ results.rows.item(i).Folio + '"';		  				  		
+				 		  		vlstr += ' 	"KEY":"'+ results.rows.item(i).RFC + '", ';
+				 		  		vlstr += ' 	"RFC":"'+ results.rows.item(i).RFC + '", ';
+				 		  		vlstr += ' 	"Nombre":"'+ results.rows.item(i).Nombre + '"';
 				 		  		vlstr += ' },';						  		
 					 		}
 							vlstr = vlstr.slice(0,-1);		
@@ -140,7 +163,7 @@ $(document).ready(function(){
 
 				 		}
 				 		else{
-				 			console.log("Facturas no encontradas ");
+				 			console.log("Proveedores no encontrados ");
 				 		}
 					});	
 				} catch(e) {
@@ -152,31 +175,28 @@ $(document).ready(function(){
 			alert("2 Error processing SQL: "+ e.message);
 			return;
 		}
-	}	
+
+	}
+
 
 
 	$('#butListar').click (function() {
 		fnLlenarDatos();
 	 });
 
-
-    $("#butEditar").on("click", function ()
-    {
-       fn_editar();
-    });
-
     $("#butNuevo").on("click", function ()
     {
-	    location.href ="FacturaE.html";
+    	localStorage.setItem("KEYProveedor", "");
+	    location.href ="Proveedores.html";
     });
-
 
 	$('#inputBuscar').typeahead({
 	    source: objProveedores ,
 	    onselect: function(obj) {	    	
-	    	console.log(obj)  ;      	    	
+	    	console.dir(obj); 
 	    	console.log('Selecciono '+obj.value);
-	    	 $('#inputBuscar').val( obj.RFC );
+	    	console.log('Selecciono '+obj.Nombre);	    	
+	    	 $('#inputBuscar').val(obj.Nombre);
 	    }
 	});  
   	

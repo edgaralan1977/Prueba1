@@ -222,8 +222,8 @@ database.initDB();
 
   function fnCargarProveedores(){
     var vlstr="";
-    var objPresentaciones2 =localStorage.getItem("objProveedores");  
-    if  (! objPresentaciones2 ){    
+    var objProveedores2 =localStorage.getItem("objProveedores");  
+     if  (! objProveedores2 ){    
       try{    
           db.transaction(function (tx) {  
           var vlsql=  "SELECT * FROM ctl_Proveedores ORDER BY   Nombre  "

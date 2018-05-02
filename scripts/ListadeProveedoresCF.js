@@ -4,10 +4,17 @@ $(document).ready(function(){
 	fnCargarProveedores();
 	var objProveedores2 =localStorage.getItem("objProveedores");	
 	if (objProveedores2){
+		//console.log(objProveedores2);
 		objProveedores = JSON.parse(objProveedores2);		
-		console.log (objProveedores);
+		//console.log (objProveedores);
 	}	
 
+//infos: 'Del {{ctx.start}} al {{ctx.end}} de {{ctx.total}} ',
+			// labels: {
+		 //        noResults: "Sin datos",		        
+		 //        search : 'Buscar',
+		 //        all : 'Todos'		        
+		 //    },
 
     function init()
     {
@@ -15,14 +22,9 @@ $(document).ready(function(){
         var grid = $("#grid-data").bootgrid({
 			rowSelect:true,
 			keepSelection:true,
-			navigation:1,
+			navigation:2,
 		    rowCount: [ 10, 50, 75,-1],			
-			labels: {
-		        noResults: "Sin datos",
-		        infos: 'Del {{ctx.start}} al {{ctx.end}} de {{ctx.total}} ',
-		        search : 'Buscar',
-		        all : 'Todos'		        
-		    },			
+			
             formatters: {
 		        "commands": function(column, row)
 		        {
@@ -141,11 +143,12 @@ $(document).ready(function(){
 	        db.transaction(function (tx) {	
 	        	//var vlsql=	"SELECT * FROM ctl_Presentaciones WHERE idPresentacion+ ' ' + Descripcion  LIKE  '%"+ vlBuscar +"%'"
 	        	//var vlsql=	"SELECT * FROM ctl_Presentaciones WHERE idPresentacion =  '"+ vlBuscar +"'"
-	        	var vlsql=	"SELECT p.* ";
+	        	var vlsql=	"SELECT p.RFC,p.Nombre ";
 	        	vlsql +=	" FROM ctl_Proveedores  p";
 	        	vlsql +=	" INNER JOIN  alm_FacturasProveedor f";
 	        	vlsql +=	" ON f.RFC =  p.RFC";	        		        	
 	        	vlsql +=	" WHERE  p.Nombre  LIKE  '%"+ vlBuscar +"%' OR p.RFC  LIKE  '%"+ vlBuscar +"%'";
+	        	vlsql +=	" GROUP BY  p.RFC,p.Nombre";	        		        		        	
 		 		console.log(vlsql);
 		 		try{
 			 		tx.executeSql(vlsql, [] , function (tx, results) {
@@ -207,6 +210,13 @@ $(document).ready(function(){
 	    }
 	});  
   	
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 
 });

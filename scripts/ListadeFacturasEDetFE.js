@@ -134,7 +134,7 @@ $(document).ready(function(){
         var grid = $("#grid-data").bootgrid({
 			rowSelect:true,
 			keepSelection:true,
-			navigation:1,
+			navigation:2,
 		    rowCount: [ 10, 50, 75,-1],
 			selection: true,
     		multiSelect: true,		    
@@ -163,8 +163,71 @@ $(document).ready(function(){
 		    {
 		        alert("You pressed delete on row: " + $(this).data("row-id"));
 		    });
+		}).on("selected.rs.jquery.bootgrid", function(e, rows)
+		{
+ 		 	var rowIds = [];
+		    for (var i = 0; i < rows.length; i++)
+		    {
+		     console.log (rows);
+		     rowIds.push(rows[i].idFacturaProveedordet_fe);
+		     var vlsql =  "UPDATE alm_FacturasProveedorDet_FacturaElectronia ";
+		     vlsql += "SET cVerificado = '1' ";						
+		     vlsql += "WHERE idFacturaProveedordet_fe = '"+ rows[i].idFacturaProveedordet_fe +"'";		     
+			 try{		
+		      db.transaction(function (tx) {
+		       try{	
+			    console.log(vlsql);
+			    tx.executeSql(vlsql,[]);
+				} catch(e) {
+				 alert("Error processing SQL: "+ e.message);
+				 return;
+				}
+			   });							
+		      } catch(e) {
+			   alert("Error processing SQL: "+ e.message);
+			   return;
+		      }
+		    }
+		    // alert("Select: " + rowIds.join(","));
+		    fnLlenarDatos();
+		}).on("deselected.rs.jquery.bootgrid", function(e, rows)
+		{
+		 var rowIds = [];
+		 for (var i = 0; i < rows.length; i++)
+		 {
+		  rowIds.push(rows[i].idFacturaProveedordet_fe);
+	      vlsql =  "UPDATE alm_FacturasProveedorDet_FacturaElectronia ";
+	      vlsql += "SET cVerificado = '0' ";						
+	      vlsql += "WHERE idFacturaProveedordet_fe = '"+ rows[i].idFacturaProveedordet_fe +"'";		  
+		  try{		
+		   db.transaction(function (tx) {
+	       try{	
+
+		    console.log(vlsql);
+		    tx.executeSql(vlsql,[]);
+			} catch(e) {
+			 alert("Error processing SQL: "+ e.message);
+			 return;
+			}
+		   });							
+	      } catch(e) {
+		   alert("Error processing SQL: "+ e.message);
+		   return;
+	      }		        
+	     }
+	     //alert("Deselect: " + rowIds.join(","));
+	     fnLlenarDatos();
 		});
     }
 
     init();
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
+
+    
 });

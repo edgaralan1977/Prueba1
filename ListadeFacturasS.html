@@ -18,6 +18,7 @@
   <meta name="msapplication-TileImage" content="images/almacen.png">
   <meta name="msapplication-TileColor" content="#2F3BA2">
 
+
   <link href="bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" >  
 
   <script type="text/javascript" src="js/jquery.js"></script>
@@ -30,11 +31,12 @@
   <script type="text/javascript" src="bootstrap-3.3.7/popover.js"></script>
   <script type="text/javascript" src="bootstrap-3.3.7/button.js"></script>
   <script type="text/javascript" src="bootstrap-3.3.7/collapse.js"></script>
-  <script type="text/javascript" src="bootstrap-3.3.7/carousel.js"></script>      
+  <script type="text/javascript" src="bootstrap-3.3.7/carousel.js"></script>     
   <script src="js/bootstrap-typeahead-fork.js"></script>  
 
   <link href="dist/jquery.bootgrid.css" rel="stylesheet"> 
   <script src="dist/jquery.bootgrid.js"></script>     
+  
 
   <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>  
 
@@ -42,57 +44,42 @@
 <body>
 
   <header class="header">
-    <h1 class="header__title"> Listado de Facturas de Proveedor Detalle ADDENDA</h1> 
+    <h1 class="header__title"> Listado de Facturas de proveedor</h1>
   </header>
 
   <main class="main">
     <div class="container"  id="Contenedor" > 
   
-       <form role="form"  id="myForm" >
+       <form role="form"  id="myForm" class="form-inline"  >
          <div class="card cardTemplate articulo-forecast form-group " > 
-          <input type="hidden" id="KEYEntrada" value="" >
-          <input type="hidden" id="KEYDEntradaDetalle" value="" >          
-          <div class="divFactura">
-             <label for="inputFactura">Factura:</label>
-             <input type="text" id="inputFactura"  class="form-control"  disabled >
-          </div>
-          <div class="divProvedor">
-             <label for="inputProveedor">Proveedor:</label>
-             <input type="hidden" id="KEYPRoveedor" value="" >
-             <input type="text" id="inputProveedor"  class="form-control"  disabled >
-             <input type="text" id="DescripcionProveedor"  class="form-control" disabled>                
-          </div>
+
           <br>
           <button  type="button" class="btn btn-primary" id= "butListar">Buscar</button>
-          <button  type="button" class="btn btn-primary" id= "butFactura">Factura</button>          
+		      <button  type="button" class="btn btn-primary" id= "Limpiar">Limpiar</button>           
+        
+
+
         </div>
-      </form>
+        
 	    <div id="lista" hidden >
-			<table   id="grid-data" class="table table-responsive  table-hover table-striped">
+			<table   id="grid-data" class="table table-responsive  table-hover">
 		      <thead>
 		        <tr>
-              <th data-column-id="KEY"  data-identifier="true" data-visible="false" >ID</th>
-		          <th data-column-id="IdFacturaProveedor"  data-visible="false" >idFacturaProveedor</th>    
-		          <th data-column-id="ClaveOficialSSA"   data-visible="true" >ClaveOficialSSA</th>
-		          <th data-column-id="ClavePresentacionSSA"   data-visible="true" >ClavePresentacionSSA</th>
-		          <th data-column-id="Codigo_barras"    data-visible="true" >CodigoBarra</th>
-		          <th data-column-id="Lote"           data-visible="true"  >Lote</th>
-		          <th data-column-id="FechaCaducidad"   data-visible="false" >FechaCaducidad</th>
-		          <th data-column-id="Cantidad"  data-headerAlign ="center"  data-align ="right" >Cantidad</th>
-		          <th data-column-id="Precio"  data-headerAlign ="right"  data-align ="right"  data-visible="false"  >Costo</th>
-		          <th data-column-id="SubTotal"  data-headerAlign ="right"  data-align ="right"   data-visible="false" >SubTotal</th>
- 				      <th data-column-id="Total"  data-headerAlign ="right"  data-align ="right"  data-visible="false">Total</th>		          
-              <th data-column-id="commands" data-formatter="commands" data-sortable="false"  >Comandos</th>
+		          <th data-column-id="KEY"  data-identifier="true" data-visible="false" >KEY</th>        
+		          <th data-column-id="Proveedor" data-order="desc" >Proveedor</th>
+		          <th data-column-id="Folio" data-order="desc" >Factura</th>
+		          <th data-column-id="Fecha"  >Fecha</th>		          
+	              <th data-column-id="commands" data-formatter="commands" data-sortable="false" >Comandos</th>		          
 		        </tr>
 		      </thead>
-		      <tbody>
+		      <tbody >
 		      </tbody>
-		    </table>
-        <button id="select-btn">SELECT</button>
-        <button id="unselect-btn">UNSELECT</button>
+		    </table>        
 	    </div>
+	    
+      </form>
       
-    </div>
+    </div>    
   </main>
 
   <div class="loader">
@@ -104,7 +91,7 @@
 
   <script src="scripts/bd.js" async></script>
   <script src="scripts/app.js" async></script>
-  <script src="scripts/ListadeFacturasEDetADD.js" async></script>  
+  <script src="scripts/ListadeFacturasS.js" async></script>  
 
 
 </body>

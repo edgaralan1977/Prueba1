@@ -1,6 +1,9 @@
 
 $(document).ready(function(){
 
+
+
+
 	var objPresentaciones ;
 	var objProductos ;
 
@@ -21,6 +24,9 @@ $(document).ready(function(){
 		console.log (objProductos);
 	}	
 
+
+
+
     
     function init()
     {    
@@ -33,6 +39,8 @@ $(document).ready(function(){
 			$('#inputCodigodeBarras').val(vlKEYCodigodeBarras);
 			fnBuscarKEY();
 		}	
+
+
 	}
 
 
@@ -486,6 +494,14 @@ $(document).ready(function(){
 	    	fnBuscarPresentacion();
 	    }
 	});
+
+
+	app.isLoading =true;
+    if (app.isLoading) {
+      app.spinner.setAttribute('hidden', true);  
+      app.container.removeAttribute('hidden');   
+      app.isLoading = false;
+    }
 
 });
 

@@ -33,6 +33,9 @@ $(document).ready(function(){
 	
 	//document.getElementById("KEYPresentacion").style.visibility = "hidden";
 
+
+
+
   	function init(){
 		if (vlIdFacturaProveedor){	
 			// appFB.database().ref('Entradas/'+vlIdFacturaProveedor).once('value').then(function(snapshot){
@@ -687,6 +690,14 @@ $(document).ready(function(){
 			}
 		}
 	}
+
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 
 });

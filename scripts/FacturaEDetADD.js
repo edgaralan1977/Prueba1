@@ -2,6 +2,7 @@
 $(document).ready(function(){
 
 
+
    var vlKEY = localStorage.getItem("KEYEntrada");	
 	
 	var vlIdFacturaProveedor =localStorage.getItem("KEYEntrada");	
@@ -162,6 +163,12 @@ $(document).ready(function(){
 		}
 	}
 
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 });
 

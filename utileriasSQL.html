@@ -46,15 +46,54 @@
     <div class="container"  id="Contenedor"> 
        <form id="myForm">
          <div class="card cardTemplate articulo-forecast form-group " >      
+          
+          <div class="card cardTemplate articulo-forecast form-group " >
+           <label >SQL:</label>
+           <div class="card cardTemplate articulo-forecast form-group " >
+            <label >Bajar:</label>
+            <button  type="button" class="btn btn-primary" id= "butBajarFacturas">BajarFacturas</button>
+            <button  type="button" class="btn btn-primary" id= "butBajarFacturasDETFE">Bajar DET FE</button>
+            <button  type="button" class="btn btn-primary" id= "butBajarFacturasDETADD">Bajar DET ADD</button>
+            <button  type="button" class="btn btn-primary" id= "butBajarProveedores">Bajar Proveedores</butto>
+           </div>
+           <div class="card cardTemplate articulo-forecast form-group " >
+            <label >Listar:</label>
+            <button  type="button" class="btn btn-primary" id= "butListarFacturasS">ListarFacturas</button>
+           </div>                 
+          </div>                 
+          <div class="card cardTemplate articulo-forecast form-group " >
+            <label >FireBase Google Cloud:</label>
+            <div class="card cardTemplate articulo-forecast form-group " >
+              <label >Subir:</label>
+              <button  type="button" class="btn btn-primary" id= "butSubirFacturasFB">SubirFacturas</button>
+              <button  type="button" class="btn btn-primary" id= "butSubirDETFEFB">SubirDetFE</button>
+              <button  type="button" class="btn btn-primary" id= "butSubirProveedoresFB">Subir Proveedores </button>              
+            </div>                               
+            <div class="card cardTemplate articulo-forecast form-group " >
+              <label >Bajar:</label>
+              <button  type="button" class="btn btn-primary" id= "butBajarFacturasFB">BajarFacturas</button>
+              <button  type="button" class="btn btn-primary" id= "butBajarDETFEFB">Bajar Detalle FE</button>
+              <button  type="button" class="btn btn-primary" id= "butBajarProveedoresFB">Bajar Proveedores </button>              
+              
+            </div>                 
 
-           <button  type="button" class="btn btn-primary" id= "butBajarFacturas">BajarFacturas</button>
-           <button  type="button" class="btn btn-primary" id= "butBajarFacturasDETFE">Bajar DET FE</button>
-           <button  type="button" class="btn btn-primary" id= "butBajarFacturasDETADD">Bajar DET ADD</button>
-           <button  type="button" class="btn btn-primary" id= "butBajarProveedores">Bajar Proveedores</butto>         
-           <button  type="button" class="btn btn-primary" id= "butBorrarFacturas">BorrarFacturas</button>
-           <button  type="button" class="btn btn-primary" id= "butBorrarFacturasDETFE">Borrar DET FE</button>
-           <button  type="button" class="btn btn-primary" id= "butBorrarFacturasDETADD">Borrar DET ADD</button>
-           <button  type="button" class="btn btn-primary" id= "butBorrarProveedores">Borrar Proveedores</button>           
+            <div class="card cardTemplate articulo-forecast form-group " >
+              <label >Borrar:</label>
+              <button  type="button" class="btn btn-primary" id= "butBorrarFacturasFB">BorrarFacturas</button>
+              <button  type="button" class="btn btn-primary" id= "butBorrarEntradasFB">BorrarEntradas</button>
+              <button  type="button" class="btn btn-primary" id= "butBorrarProveedoresFB">Borrar Proveedores</button>              
+            </div>                 
+
+
+
+          </div>                 
+          <div class="card cardTemplate articulo-forecast form-group " >
+            <label >WEBSQL:</label>
+            <button  type="button" class="btn btn-primary" id= "butBorrarFacturas">BorrarFacturas</button>
+            <button  type="button" class="btn btn-primary" id= "butBorrarFacturasDETFE">Borrar DET FE</button>
+            <button  type="button" class="btn btn-primary" id= "butBorrarFacturasDETADD">Borrar DET ADD</button>
+            <button  type="button" class="btn btn-primary" id= "butBorrarProveedores">Borrar Proveedores</button>
+          </div>                 
 
 
           <div id="results" ></div>                 
@@ -63,6 +102,14 @@
       </form>
     </div>    
   </main>
+
+
+  <div class="loader">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div>
+
 
   <script src="scripts/app.js" async></script>
   <script src="scripts/bd.js" async></script>  

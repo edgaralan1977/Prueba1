@@ -42,6 +42,8 @@ $(document).ready(function(){
     init();
 
 
+
+
 	$('#butMenu').click( function() {	
 		location.href ="menu.html";
 	});	
@@ -156,6 +158,14 @@ $(document).ready(function(){
     	localStorage.setItem("KEYCodigodeBarras", "");
 	    location.href ="CodigosdeBarras.html";
     });
+
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 
 });

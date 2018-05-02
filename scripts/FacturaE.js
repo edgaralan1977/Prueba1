@@ -1,7 +1,6 @@
 
 $(document).ready(function(){
 
-
   var vlKEY = localStorage.getItem("KEYEntrada");		
 	
   $('#butNueva').click( function() {	
@@ -251,6 +250,13 @@ $(document).ready(function(){
 		fn_BuscarKEY(vlKEY);
 	}
 
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 
 });

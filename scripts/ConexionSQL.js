@@ -3,10 +3,15 @@
   var myUserName = 'Test';
   var myUserPassword = 'test1234';
   var serviceUrl = 'http://localhost:24706/';     
-  var serviceUrl = 'http://10.0.180.13/testwcf/';       
+  var serviceUrl = 'http://10.0.180.21/testwcf/';       
   var vlServidor ='';
+  app.serviceUrl =serviceUrl
+
+
 
   function init() {
+
+
       try{    
           db.transaction(function (tx) {  
           var vlsql=  "SELECT * FROM ctl_Configuracion WHERE id = 1";
@@ -168,6 +173,13 @@
       error: function (xhr) { console.log(xhr.responseText); }
     });
 
+  }); 
+
+
+
+  $('#butListarFacturasS').click( function() { 
+    console.log ('Listar facturas');
+     location.href ="ListadeFacturasS.html";
   }); 
 
 
@@ -380,4 +392,326 @@
     });
   }); 
 
+
+  $('#butBorrarFacturasFB').click( function() { 
+    var ListRef = appFB.database().ref('alm_FacturasProveedor' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/alm_FacturasProveedor/" + snapshotItem.key;    
+        console.log(vlRuta);
+        var productoRef = appFB.database().ref(vlRuta);
+        productoRef.remove();        
+      });
+    });
+  });
+
+  $('#butBorrarEntradasFB').click( function() { 
+    var ListRef = appFB.database().ref('Entradas' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/Entradas/" + snapshotItem.key;    
+        console.log(vlRuta);
+        var productoRef = appFB.database().ref(vlRuta);
+        productoRef.remove();        
+      });
+    });
+  }); 
+
+
+  $('#butSubirDETFEFB').click( function() { 
+    console.log ('Subir detalle de facturas electronica  a FireBase '); 
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT * FROM alm_FacturasProveedorDet_FacturaElectronia  ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            if (len >0) {
+              for (i = 0; i < len; i++) { 
+
+                var vlObjeto ={
+                    'idFacturaProveedor': results.rows.item(i).idFacturaProveedor,
+                    'idFacturaProveedordet_fe': results.rows.item(i).idFacturaProveedordet_fe,
+                    'Descripcion': results.rows.item(i).Descripcion,
+                    'Unidad': results.rows.item(i).Unidad,
+                    'ClaveUnidad': results.rows.item(i).ClaveUnidad,
+                    'Cantidad': results.rows.item(i).Cantidad,                    
+                    'ClaveProdServ': results.rows.item(i).ClaveProdServ,
+                    'Importe': results.rows.item(i).Importe,
+                    'ValorUnitario': results.rows.item(i).ValorUnitario,
+                    'NoIdentificacion': results.rows.item(i).NoIdentificacion,
+                    'cVerificado': results.rows.item(i).cVerificado
+                };
+
+                var ruta='alm_FacturasProveedor/'+results.rows.item(i).idFacturaProveedor+"/"+ results.rows.item(i).idFacturaProveedordet_fe;
+                console.log(ruta);        
+                var dfeListRef = appFB.database().ref(ruta);                    
+                console.log(vlObjeto);
+                //var newDfERef = dfeListRef.push();                              
+                //newDfERef.set(vlObjeto);
+                dfeListRef.set(vlObjeto);
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+  }); 
+
+
+  $('#butSubirFacturasFB').click( function() { 
+    console.log ('Subir facturas  a FireBase '); 
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT * FROM alm_FacturasProveedor ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                var vlObjeto ={
+                  'idFacturaProveedor': results.rows.item(i).idFacturaProveedor,
+                  'Folio': results.rows.item(i).Folio,
+                  'IdProveedor': results.rows.item(i).IdProveedor,
+                  'fecha': results.rows.item(i).IdProveedor,
+                  'observaciones': results.rows.item(i).observaciones,
+                  'Estatus': results.rows.item(i).Estatus,
+                  'cXMl': results.rows.item(i).cXMl,
+                  'UUID': results.rows.item(i).UUID,
+                  'RFC': results.rows.item(i).RFC,
+                  'serie': results.rows.item(i).serie,
+                  'RFCReceptor': results.rows.item(i).RFCReceptor,
+                  'Total': results.rows.item(i).Total,
+                  'cVerificada': results.rows.item(i).cVerificada
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('alm_FacturasProveedor/'+results.rows.item(i).idFacturaProveedor);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);
+               
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+  }); 
+
+
+  $('#butBajarFacturasFB').click( function() { 
+    console.log ('Bajar Facturas  de FireBase ');    
+    var vlSql = "";
+    
+    var ListRef = appFB.database().ref('alm_FacturasProveedor' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var childKey = snapshotItem.key;
+        var childData = snapshotItem.val();
+        if (childData.idFacturaProveedor){
+
+          vlSql =  " insert into alm_FacturasProveedor ";
+          vlSql +=  " (idFacturaProveedor ,Folio,IdProveedor ,fecha ,observaciones ";
+          vlSql +=  " ,Estatus ,UUID ,RFC ,serie ,RFCReceptor ,Total ,cVerificada )";
+          vlSql +=  "  values ";
+          vlSql +=  "('" +childData.idFacturaProveedor + "',";
+          vlSql +=  "'" +childData.Folio + "',";
+          vlSql +=  "'" +childData.IdProveedor+ "',";
+          vlSql +=  "'" +childData.fecha + "',";
+          vlSql +=  "'" +childData.observaciones + "',";
+          vlSql +=  "'" +childData.Estatus + "',";
+          vlSql +=  "'" +childData.UUID+ "',";
+          vlSql +=  "'" +childData.RFC + "',";
+          vlSql +=  "'" +childData.serie  + "',";
+          vlSql +=  "'" +childData.RFCReceptor + "',";
+          vlSql +=  "'" +childData.Total + "',";
+          vlSql +=  "'" +childData.cVerificada + "'";          
+          vlSql +=  ")";       
+          console.log(vlSql);
+          try{    
+           db.transaction(function (tx) { 
+            tx.executeSql(vlSql,[]);                          
+           });       
+          } catch(e) {
+            alert("Error processing SQL: "+ e.message);
+            return;
+          }
+
+        }
+      });
+
+
+
+    });
+  }); 
+
+
+  $('#butBajarDETFEFB').click( function() { 
+    console.log ('Bajar det Facturas  a FireBase ');    
+    var vlSql = "";
+    
+    var ListRef = appFB.database().ref('alm_FacturasProveedor' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var childKey = snapshotItem.key;
+        var childData = snapshotItem.val();
+        var ListRef1 = appFB.database().ref('alm_FacturasProveedor/'+ childKey  );
+        ListRef1.once('value').then(function(snapshotList1) {
+          snapshotList1.forEach(function(snapshotItem1) {
+            var childKey1 = snapshotItem1.key;
+            var childData1 = snapshotItem1.val();
+            if (childData1.idFacturaProveedordet_fe){
+              console.log(childData1);
+              vlSql =  " insert into alm_FacturasProveedorDet_FacturaElectronia ";
+              vlSql +=  " (idFacturaProveedor ,idFacturaProveedordet_fe,Descripcion ,Unidad ,ClaveUnidad ";
+              vlSql +=  " ,Cantidad ,ClaveProdServ ,Importe  ,ValorUnitario ,NoIdentificacion ,cVerificado )";
+              vlSql +=  "  values ";              
+              vlSql +=  "('" +childData1.idFacturaProveedor + "',";
+              vlSql +=  "'" +childData1.idFacturaProveedordet_fe + "',";
+              vlSql +=  "'" +childData1.Descripcion+ "',";
+              vlSql +=  "'" +childData1.Unidad + "',";
+              vlSql +=  "'" +childData1.ClaveUnidad + "',";
+              vlSql +=  "'" +childData1.Cantidad + "',";
+              vlSql +=  "'" +childData1.ClaveProdServ + "',";              
+              vlSql +=  "'" +childData1.Importe+ "',";
+              vlSql +=  "'" +childData1.ValorUnitario + "',";
+              vlSql +=  "'" +childData1.NoIdentificacion  + "',";
+              vlSql +=  "'" +childData1.cVerificado + "'";
+              vlSql +=  ")";   
+              vlSql +=  "";
+              console.log(vlSql);
+
+              try{    
+               db.transaction(function (tx) { 
+                tx.executeSql(vlSql,[]);                          
+               });       
+              } catch(e) {
+                alert("Error processing SQL: "+ e.message);
+                return;
+              }
+            }
+          });
+        });
+      });
+    });
+  });
+
+
+  $('#butBajarProveedoresFB').click( function() { 
+    console.log ('Bajar Proveedores  de FireBase ');    
+    
+    
+    var ListRef = appFB.database().ref('ctl_Proveedores' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var childKey = snapshotItem.key;
+        var childData = snapshotItem.val();
+        if (childData.RFC){
+          var vlSql = "";
+          vlSql =  " insert into ctl_Proveedores ";
+          vlSql +=  " (RFC , Nombre , ApellidoPaterno ,ApellidoMaterno,  Correo )";
+          vlSql +=  "  values ";
+          vlSql +=  "('" +childData.RFC + "',";
+          vlSql +=  "'" +childData.Nombre + "',";
+          vlSql +=  "'" +childData.ApellidoPaterno+ "',";
+          vlSql +=  "'" +childData.ApellidoMaterno + "',";
+          vlSql +=  "'" +childData.Correo + "'";
+          vlSql +=  ")";       
+          console.log(vlSql);
+          try{    
+           db.transaction(function (tx) { 
+            tx.executeSql(vlSql,[]);                          
+           });       
+          } catch(e) {
+            alert("Error processing SQL: "+ e.message);
+            return;
+          }
+        }
+      });
+    });
+  }); 
+
+
+
+  $('#butSubirProveedoresFB').click( function() { 
+    console.log ('Subir Proveedores a FireBase '); 
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT * FROM ctl_Proveedores ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                var vlObjeto ={
+                  'RFC': results.rows.item(i).RFC,
+                  'Nombre': results.rows.item(i).Nombre,
+                  'ApellidoPaterno': results.rows.item(i).ApellidoPaterno,
+                  'ApellidoMaterno': results.rows.item(i).ApellidoMaterno,
+                  'Correo': results.rows.item(i).Correo
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('ctl_Proveedores/'+results.rows.item(i).RFC);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);
+               
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+  }); 
+
+
+
+  $('#butBorrarProveedoresFB').click( function() { 
+    var ListRef = appFB.database().ref('Proveedores' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/Proveedores/" + snapshotItem.key;    
+        console.log(vlRuta);
+        var productoRef = appFB.database().ref(vlRuta);
+        productoRef.remove();        
+      });
+    });
+  }); 
+
   init();
+
+  app.isLoading =true;
+    if (app.isLoading) {
+      app.spinner.setAttribute('hidden', true);  
+      app.container.removeAttribute('hidden');   
+      app.isLoading = false;
+    }  

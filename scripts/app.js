@@ -2,8 +2,13 @@
 
   var app = {
     isLoading: true,
-    Usuario:""
+    spinner: document.querySelector('.loader'),    
+    container: document.querySelector('.main'),
+    Usuario:"",
+    serviceUrl:"http://localhost/testwcf/" 
   };
+
+//serviceUrl:"http://localhost:24706/" 
 
   var config = {
     apiKey: "AIzaSyADt2_Wv1gkY_3rgALye_asBEy_SYpsy1Y",

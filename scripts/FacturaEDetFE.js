@@ -90,36 +90,26 @@ $(document).ready(function(){
 
 	$('#butGuardar').click (function() {
  		var vlcVerificado ="";
-
-
-		vlIdFacturaProveedor =localStorage.getItem("KEYEntrada");
-				
-		if (vlIdFacturaProveedor){		
-
-			
-			vlcVerificado = $('#inputcVerificado').val();
-			
+		vlIdFacturaProveedor =localStorage.getItem("KEYEntrada");				
+		if (vlIdFacturaProveedor){					
+			vlcVerificado = $('#inputcVerificado').val();			
 			 console.log(vlIdFacturaProveedorDetalleFE);
-
-
 			if (vlIdFacturaProveedorDetalleFE){
-
 				try{	
 			        db.transaction(function (tx) {	
-								vlsql =  " UPDATE alm_FacturasProveedorDet_FacturaElectronia ";
-								vlsql += " SET cVerificado = '" + vlIdProducto  + "' ";																
-		        				vlsql += " WHERE  id   =  "+ vlIdFacturaProveedorDetalle +" ";
-				 			
-					 			console.log(vlsql);
-								tx.executeSql(vlsql,[]);
-								alert("Se Actualizo con exito");
-							});										
+						vlsql =  " UPDATE alm_FacturasProveedorDet_FacturaElectronia ";
+						vlsql += " SET cVerificado = '" + vlcVerificado.substring(0,1)  + "' ";																
+        				vlsql += " WHERE  id   =  "+ vlIdFacturaProveedorDetalleFE +" ";
+		 			
+			 			console.log(vlsql);
+						tx.executeSql(vlsql,[]);
+						alert("Se Actualizo con exito");
+					});										
 				} catch(e) {
 					alert("Error processing SQL: "+ e.message);
 					return;
 				}
 			}
-
 		}		
 	});	
 
@@ -157,6 +147,13 @@ $(document).ready(function(){
 			}
 		}
 	}
+
+	app.isLoading =true;
+	if (app.isLoading) {
+	      app.spinner.setAttribute('hidden', true);  
+	      app.container.removeAttribute('hidden');   
+	      app.isLoading = false;
+	    }
 
 
 });
