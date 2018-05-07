@@ -1,11 +1,6 @@
 $(document).ready(function(){
 
 
-    function getHeaders() {
-        //btoa is a built in browser cmd for encode Base64
-        return { 'Authorization': "Basic " + btoa("test:testpw") };
-    }
-
     function init()
     {
     	

@@ -21,6 +21,22 @@
 
   var appFB = firebase.initializeApp(config); 
 
+  function fnCargando(){
+    app.isLoading =true;
+    app.spinner.removeAttribute('hidden');
+  }
+
+  function fnQuitarCargando(){
+    app.isLoading =false;    
+    app.spinner.setAttribute('hidden', true); 
+  }
+
+
+  function getHeaders() {
+       //btoa is a built in browser cmd for encode Base64
+      return { 'Authorization': "Basic " + btoa("test:testpw") };
+  }
+
 (function() {
   'use strict';
 

@@ -13,10 +13,7 @@ $(document).ready(function(){
     $('#inputBuscar').val(vlKEYRFCProveedor);
 
     function init()
-    {
-    	//VASJ590823GD3
-    	
-
+    { 
         localStorage.setItem("KEYEntrada", "");
         var grid = $("#grid-data").bootgrid({
 			rowSelect:true,
