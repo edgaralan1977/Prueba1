@@ -20,7 +20,7 @@ $(document).ready(function(){
 		var vlstr ="";		
 		
 
-		if   ( vlIDFE !=="" ) {			
+		if   ( vlIDEntrada !=="" ) {			
 	  		$('#lista').show();	
 
 			try{
@@ -29,9 +29,9 @@ $(document).ready(function(){
 					vlsql =	"";
 		        	vlsql += " SELECT id,idFacturaProveedor, idFacturasProveedorDet_ADDENDA, Lote, ";
 		        	vlsql += " FechaCaducidad, FechaCaducidad, Cantidad,  codigo_barras,";
-		        	vlsql += " precio  , ClaveOficialSSA , ClavePresentacionSSA  ,cVerificado ";
+		        	vlsql += " precio  , ClaveOficialSSA , ClavePresentacionSSA  ,cVerificado, IFNULL(Observaciones,'') Observaciones ";
 		        	vlsql += " FROM alm_FacturasProveedorDet_ADDENDA ";
-		        	vlsql += " WHERE  idFacturaProveedor   = '"+ vlIDFE +"'";
+		        	vlsql += " WHERE  idFacturaProveedor = '"+ vlIDEntrada +"';";
 			 		console.log(vlsql);
 			 		try{
 				 		tx.executeSql(vlsql, [] , function (tx, results) {
@@ -42,8 +42,8 @@ $(document).ready(function(){
 
 						 		for (i = 0; i < len; i++) {
 					 		  		vlstr += ' {';
-					 		  		vlstr += ' 	"KEY":"'+ results.rows.item(i).id + '", ';
-					 		  		vlstr += ' 	"IdFacturaProveedor":"'+ results.rows.item(i).idFacturaProveedor + '", ';					 		  		
+					 		  		vlstr += ' 	"KEY":"'+ results.rows.item(i).idFacturasProveedorDet_ADDENDA + '", ';
+					 		  		vlstr += ' 	"IdFacturaProveedor":"'+ results.rows.item(i).idFacturaProveedor + '", ';
 					 		  		vlstr += ' 	"IdFacturasProveedorDet_ADDENDA":"'+ results.rows.item(i).idFacturasProveedorDet_ADDENDA + '", ';
 						 	  		vlstr += ' 	"Lote":"'+ results.rows.item(i).Lote + '",';
 						 	  		vlstr += ' 	"FechaCaducidad":"'+ results.rows.item(i).FechaCaducidad + '",';
@@ -52,7 +52,8 @@ $(document).ready(function(){
 									vlstr += ' 	"Precio":"'+ results.rows.item(i).precio + '",';
 									vlstr += ' 	"ClaveOficialSSA":"'+ results.rows.item(i).ClaveOficialSSA + '",';
 									vlstr += ' 	"ClavePresentacionSSA":"'+ results.rows.item(i).ClavePresentacionSSA + '",';
-									vlstr += ' 	"CVerificado":"'+ results.rows.item(i).cVerificado + '"';	  				  		
+									vlstr += ' 	"CVerificado":"'+ results.rows.item(i).cVerificado + '",';
+									vlstr += ' 	"Observaciones":"'+ results.rows.item(i).Observaciones + '"';
 					 		  		vlstr += ' },';				  		
 						 		}
 								vlstr = vlstr.slice(0,-1);		
@@ -84,41 +85,6 @@ $(document).ready(function(){
 		fnLlenarDatos();
 	 });
 	
-	
-	$.fn.bootgrid.Constructor.prototype.select = function (rowIds) {
-	    console.log("Grid.prototype.select");
-	    console.dir(rowIds);
-
-	    var _this = this;
-	    $.each(rowIds, function () {
-	        _this.element.find("[data-row-id='" + this + "']").addClass("active");
-	    });
-
-	    return this;
-	};
-
-	$.fn.bootgrid.Constructor.prototype.deselect = function (rowIds) {
-	    console.log("Grid.prototype.deselect");
-	    console.dir(rowIds);
-
-	    var _this = this;
-	    $.each(rowIds, function () {
-	        _this.element.find("[data-row-id='" + this + "']").removeClass("active");
-	    });
-
-	    return this;
-	};
-
-
-
-	$("#select-btn").click(function () {
-	    $("#grid-data").bootgrid("select", [1]);
-	});
-
-	$("#unselect-btn").click(function () {
-	    $("#grid-data").bootgrid("deselect", [1]);
-	});	
-
 
 	function init(){
 		if (vlIDEntrada){		
@@ -129,15 +95,13 @@ $(document).ready(function(){
 		        	vlsql += " IFNULL(P.Nombre,'') || ' ' || IFNULL(P.ApellidoPaterno,' ') || ' ' || IFNULL(P.ApellidoMaterno,' ')  AS NombreProvedor";
 		        	vlsql += " FROM alm_FacturasProveedor A  ";        	
 		        	vlsql += " INNER JOIN ctl_Proveedores P ON P.RFC  = A.RFC ";        	
-		        	vlsql += " WHERE  A.id   =  "+ vlIDEntrada +"";
+		        	vlsql += " WHERE  A.idFacturaProveedor   =  '"+ vlIDEntrada +"'";
 			 		console.log(vlsql);
 			 		try{
 				 			tx.executeSql(vlsql, [] , function (tx, results) {
 					 		var len = results.rows.length, i;
 					 		console.log( len);
-					 		if (len >0) {
-
-				    			
+					 		if (len >0) {				    			
 								 $('#inputProveedor').val(results.rows.item(i).RFC);
 								 $('#inputFactura').val(results.rows.item(i).Folio);
 								 $('#DescripcionProveedor').val(results.rows.item(i).NombreProvedor);	
@@ -163,8 +127,6 @@ $(document).ready(function(){
 			keepSelection:true,
 			navigation:2,
 		    rowCount: [ 10, 50, 75,-1],	
-		    selection: true,
-    		multiSelect: true,		
 			labels: {
 		        noResults: "Sin datos",
 		        infos: 'Del {{ctx.start}} al {{ctx.end}} de {{ctx.total}} ',
@@ -174,7 +136,9 @@ $(document).ready(function(){
             formatters: {
 		        "commands": function(column, row)
 		        {
-		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Detalle</span></button> ";
+		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Detalle</span></button> " +
+		            "<button type=\"button\" class=\"btn btn-xs btn-default command-verificado\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Verificado</span></button> "+ 
+		            "<button type=\"button\" class=\"btn btn-xs btn-default command-Diferencia\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Diferencia</span></button> ";
 		        }
             },
             rowCount: [-1, 10, 50, 75]
@@ -186,9 +150,46 @@ $(document).ready(function(){
 			    localStorage.setItem("idEntradaDetalleADD", $(this).data("row-id"));
 			    location.href ="FacturaEDetADD.html";			        
 		        
-		    }).end().find(".command-delete").on("click", function(e)
+		    }).end().find(".command-verificado").on("click", function(e)
 		    {
-		        alert("You pressed delete on row: " + $(this).data("row-id"));
+		    	console.log("verificado");
+		    	console.log($(this).data("row-id"));
+			    var vlsql =  "UPDATE alm_FacturasProveedorDet_ADDENDA ";
+			    vlsql += "SET cVerificado = 'V' ";						
+			    vlsql += "WHERE idFacturasProveedorDet_ADDENDA = '"+ $(this).data("row-id") +"';";			       	
+			    console.log(vlsql);		    	
+				try{		
+			      db.transaction(function (tx) {
+			       try{	
+				    tx.executeSql(vlsql,[]);
+					} catch(e) {
+					 alert("Error processing SQL: "+ e.message);					
+					}
+				   });							
+			    } catch(e) {
+				   alert("Error processing SQL: "+ e.message);
+			    }
+ 				fnLlenarDatos();
+		    }).end().find(".command-Diferencia").on("click", function(e)
+		    {
+		    	console.log("verificado");
+		    	console.log($(this).data("row-id"));
+			    var vlsql =  "UPDATE alm_FacturasProveedorDet_ADDENDA ";
+			    vlsql += "SET cVerificado = 'D' ";						
+			    vlsql += "WHERE idFacturasProveedorDet_ADDENDA = '"+ $(this).data("row-id") +"';";			       	
+			    console.log(vlsql);		    	
+				try{		
+			      db.transaction(function (tx) {
+			       try{	
+				    tx.executeSql(vlsql,[]);
+					} catch(e) {
+					 alert("Error processing SQL: "+ e.message);					
+					}
+				   });							
+			    } catch(e) {
+				   alert("Error processing SQL: "+ e.message);
+			    }
+ 				fnLlenarDatos();
 		    });
 		}).on("loaded.rs.jquery.bootgrid", function (e, c, rows) {
 		    console.log("Grid is loaded.");

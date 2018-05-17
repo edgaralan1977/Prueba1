@@ -6,7 +6,6 @@ $(document).ready(function(){
 	var objProveedores2 =localStorage.getItem("objProveedores");	
 	if (objProveedores2){
 		objProveedores = JSON.parse(objProveedores2);		
-		console.log (objProveedores);
 	}	
 
 
@@ -27,7 +26,8 @@ $(document).ready(function(){
             formatters: {
 		        "commands": function(column, row)
 		        {
-		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Detalle</span></button> ";
+		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Detalle</span></button> " +
+		            		"<button type=\"button\" class=\"btn btn-xs btn-default command-Factura\" data-row-id=\"" + row.KEY + "\"><span class=\"glyphicons glyphicons-pen\">Encabezado</span></button> ";
 		        }
             }
         }).on("loaded.rs.jquery.bootgrid", function()
@@ -38,9 +38,9 @@ $(document).ready(function(){
 			    localStorage.setItem("KEYEntrada", $(this).data("row-id"));
 			    location.href ="FacturaProveedor.html";
 		        
-		    }).end().find(".command-delete").on("click", function(e)
+		    }).end().find(".command-Factura").on("click", function(e)
 		    {
-		        alert("You pressed delete on row: " + $(this).data("row-id"));
+		     
 		    });
 		});		  
     }

@@ -61,7 +61,7 @@
           <div class="card cardTemplate articulo-forecast form-group">          
             <div class="divNoIdentificacion">
               <label for="inputNoIdentificacion">NoIdentificacion:</label>
-              <input type="number" id="inputNoIdentificacion"  class="form-control" disabled >
+              <input type="text" id="inputNoIdentificacion"  class="form-control" disabled >
             </div> 
             <div class="divClaveProdServ">         
                <label for="inputClaveProdServ">ClaveProdServ:</label>
@@ -87,12 +87,17 @@
               <label for="inputCantidad">Importe:</label>
               <input type="text" id="inputImporte"  class="form-control" disabled>
             </div>
+            <div class="divObservaciones">
+              <label for="inputObservaciones">Observaciones:</label>
+              <input type="text" id="inputObservaciones"  class="form-control" >
+            </div>            
             <div class="divcVerificado">
               <label for="inputcVerificado">Verificado:</label>
               <!-- <input type="text" id="inputcVerificado"  class="form-control" > -->
               <select class="form-control" id="inputcVerificado" >
-                <option>Si</option>
-                <option>No</option>
+                <option value ="S">Sin Verificar</option>
+                <option value ="V">Verificado</option>
+                <option value ="D">Diferencia</option>
               </select>                
             </div>          
             <br>

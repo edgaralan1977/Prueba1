@@ -50,8 +50,11 @@
   $('#butBajarTodo_SQL').click( function() { 
     fnBajarFacturas_SQL();
     fnBajarFacturaDetallesFE_SQL();
-    fnBajarFacturaDetallesADDENDA_SQL();
+    fnBajarFacturaDetallesADDENDA_SQL();    
     fnBajarProveedores_SQL();
+    fnBajarPresentaciones_SQL();
+    fnBajarProductos_SQL();
+    fnBajarCodigosdeBarrs_SQL();
   }); 
 
 
@@ -154,6 +157,68 @@
   });
 
 
+
+  function fnBorrarProductos_WSQL(){
+    fnCargando();
+    var vlSql =" DELETE FROM ctl_Productos;";
+
+    try{    
+      db.transaction(function (tx) { 
+        console.log( vlSql );
+        tx.executeSql(vlSql,[]);                          
+      });       
+    } catch(e) {
+      alert("Error processing SQL: "+ e.message);
+      return;
+    };
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarProductos').click( function() { 
+    fnBorrarProductos_WSQL()
+  });
+
+
+  function fnBorrarPresentaciones_WSQL(){
+    fnCargando();
+    var vlSql =" DELETE FROM ctl_Presentaciones;";
+
+    try{    
+      db.transaction(function (tx) { 
+        console.log( vlSql );
+        tx.executeSql(vlSql,[]);                          
+      });       
+    } catch(e) {
+      alert("Error processing SQL: "+ e.message);
+      return;
+    };
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarPresentaciones').click( function() { 
+    fnBorrarPresentaciones_WSQL()
+  });
+
+
+  function fnBorrarCodigosdeBarras_WSQL(){
+    fnCargando();
+    var vlSql =" DELETE FROM ctl_CodigosdeBarras;";
+
+    try{    
+      db.transaction(function (tx) { 
+        console.log( vlSql );
+        tx.executeSql(vlSql,[]);                          
+      });       
+    } catch(e) {
+      alert("Error processing SQL: "+ e.message);
+      return;
+    };
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarCodigosdeBarras').click( function() { 
+    fnBorrarCodigosdeBarras_WSQL()
+  });
 
 
   function fnBajarFacturas_SQL(){
@@ -260,8 +325,8 @@
               vlSql +=  " '" +response.results[i].NoIdentificacion + "',";
               vlSql +=  " '" +response.results[i].CVerificado + "'";          
               vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM alm_FacturasProveedorDet_FacturaElectronia ";
-              vlSql +=  "                     WHERE idFacturaProveedor = '" + response.results[i].idFacturaProveedor + "'";
-              vlSql +=  "                     AND  idFacturaProveedordet_fe = '" + response.results[i].idFacturaProveedordet_fe +"')";
+              vlSql +=  "                     WHERE idFacturaProveedor = '" + response.results[i].IdFacturaProveedor + "'";
+              vlSql +=  "                     AND  idFacturaProveedordet_fe = '" + response.results[i].IdFacturaProveedordet_fe +"')";
               vlSql +=  ";";             
               console.log(vlSql);
               tx.executeSql(vlSql,[]);                          
@@ -320,8 +385,8 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
               vlSql +=  " '" +response.results[i].ClaveOficialSSA + "',";
               vlSql +=  " '" +response.results[i].ClavePresentacionSSA + "',";
               vlSql +=  " '" +response.results[i].CVerificado + "'";
-              vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM alm_FacturasProveedorDet_FacturaElectronia ";
-              vlSql +=  "                     WHERE idFacturaProveedor = '" + response.results[i].idFacturaProveedor + "'";
+              vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM alm_FacturasProveedorDet_ADDENDA ";
+              vlSql +=  "                     WHERE idFacturaProveedor = '" + response.results[i].IdFacturaProveedor + "'";
               vlSql +=  "                     AND  IdFacturasProveedorDet_ADDENDA = '" + response.results[i].IdFacturasProveedorDet_ADDENDA +"')";
               vlSql +=  ";";                   
               console.log(vlSql);                        
@@ -514,6 +579,155 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
   }); 
 
 
+
+  function fnBajarProductos_SQL(){
+    fnCargando();
+    console.log ('Bajando Productos facturas');
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/ProductosFacturas",
+      type: "GET",
+      // tell jQuery we're expecting JSONP
+      dataType: "json",
+      // work with the response
+      success: function( response ) {
+        console.log( response );
+        $('#results').append('<p>Testing Productos Service...</p>').append('<code>'+ JSON.stringify(response) +'</code>');        
+                 
+        try{    
+          db.transaction(function (tx) { 
+            for (var i in response.results) {              
+              console.log(i); 
+              var vlSql = "";  
+              vlSql = "";              
+              vlSql +=  " insert into ctl_Productos ";
+              vlSql +=  " (idClaveOficial ,Descripcion ,TipoMI ,idPartida  , ManejaLotes ,IVAP)";
+              vlSql +=  "  SELECT  ";          
+              vlSql +=  " '" +response.results[i].ClaveOficial + "'";
+              vlSql +=  " ,'" +response.results[i].Descripcion + "'";
+              vlSql +=  " ,'" +response.results[i].Tipo + "'";
+              vlSql +=  " ,'" +response.results[i].ClavePartida + "'";
+              vlSql +=  " ,'" +response.results[i].ManejaLotes + "'";
+              vlSql +=  " ,'" +response.results[i].PorcentajeIva + "'";
+              vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM ctl_Productos WHERE idClaveOficial = '" + response.results[i].ClaveOficial +"')";
+              vlSql +=  " ;"
+              console.log(vlSql);            
+              tx.executeSql(vlSql,[]); 
+
+            }
+          });       
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }
+     },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();    
+  }
+
+  $('#butBajarProductos_SQL').click( function() { 
+    fnBajarProductos_SQL();
+  }); 
+
+
+
+  function fnBajarPresentaciones_SQL(){
+    fnCargando();
+    console.log ('Bajando Presentaciones facturas');
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/PresentacionesFacturas",
+      type: "GET",
+      // tell jQuery we're expecting JSONP
+      dataType: "json",
+      // work with the response
+      success: function( response ) {
+        console.log( response );
+        $('#results').append('<p>Testing Presentaciones Service...</p>').append('<code>'+ JSON.stringify(response) +'</code>');        
+                 
+        try{    
+          db.transaction(function (tx) { 
+            for (var i in response.results) {              
+              console.log(i); 
+              var vlSql = "";  
+              vlSql = "";              
+              vlSql +=  " insert into ctl_Presentaciones ";
+              vlSql +=  " (idPresentacion ,Descripcion )";
+              vlSql +=  "  SELECT  ";          
+              vlSql +=  " '" +response.results[i].Clave + "',";
+              vlSql +=  " '" +response.results[i].Descripcion + "'";
+              vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM ctl_Presentaciones WHERE idPresentacion = '" + response.results[i].ClaveOficial +"')";
+              vlSql +=  " ;"
+              console.log(vlSql);            
+              tx.executeSql(vlSql,[]); 
+
+            }
+          });       
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }
+     },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();    
+  }
+
+  $('#butBajarPresentaciones_SQL').click( function() { 
+    fnBajarPresentaciones_SQL();
+  }); 
+
+
+
+
+  function fnBajarCodigosdeBarras_SQL(){
+    fnCargando();
+    console.log ('Bajando CodigosdeBarras facturas');
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/CodigosdeBarrasFacturas",
+      type: "GET",
+      // tell jQuery we're expecting JSONP
+      dataType: "json",
+      // work with the response
+      success: function( response ) {
+        console.log( response );
+        $('#results').append('<p>Testing CodigosdeBarrasFacturas Service...</p>').append('<code>'+ JSON.stringify(response) +'</code>');        
+                 
+        try{    
+          db.transaction(function (tx) { 
+            for (var i in response.results) {              
+              console.log(i); 
+              var vlSql = "";
+              vlSql = "";
+              vlSql +=  " insert into ctl_CodigosdeBarras ";
+              vlSql +=  " (CodigoBarras ,Descripcion )";
+              vlSql +=  "  SELECT  ";          
+              vlSql +=  " '" +response.results[i].Codigo_Barras + "',";
+              vlSql +=  " '" +response.results[i].Descripcion + "'";
+              vlSql +=  " WHERE NOT EXISTS ( SELECT 1 FROM ctl_CodigosdeBarras WHERE CodigoBarras = '" + response.results[i].ClaveOficial +"')";
+              vlSql +=  " ;"
+              console.log(vlSql);            
+              tx.executeSql(vlSql,[]); 
+
+            }
+          });       
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }
+     },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();    
+  }
+
+  $('#butBajarCodigosdeBarras_SQL').click( function() { 
+    fnBajarCodigosdeBarras_SQL();
+  }); 
+
+
   function fnBorrar_alm_FacturasProveedor_FB(){
     var ListRef = appFB.database().ref('alm_FacturasProveedor' );
     ListRef.once('value').then(function(snapshotList) {
@@ -522,9 +736,12 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
         vlRuta= "/alm_FacturasProveedor/" + snapshotItem.key;    
         console.log(vlRuta);
         var productoRef = appFB.database().ref(vlRuta);
-        productoRef.remove();        
+        productoRef.remove(); 
+        
       });
+      alert("Facturas borradas con exito");
     });
+
   }
 
   $('#butBorrarFacturasFB').click( function() { 
@@ -656,6 +873,179 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
   $('#butSubirFacturasFB').click( function() { 
     fnSubir_Facturas_FB();
   }); 
+
+
+
+  function fnSubir_Facturas_SQL_FB(){
+    fnCargando();
+    console.log ('Subir facturas de SQL a FireBase '); 
+
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/Facturas",
+      type: "GET",
+      // tell jQuery we're expecting JSONP
+      dataType: "json",
+      // work with the response
+      success: function( response ) {
+        console.log( response );
+        
+        
+        
+        try{    
+          db.transaction(function (tx) { 
+            for (var i in response.results) {
+              console.log(i);            
+                var vlObjeto ={
+                  'idFacturaProveedor': response.results[i].IdFacturaProveedor,
+                  'Folio': response.results[i].Folio,
+                  'IdProveedor': response.results[i].IdProveedor,
+                  'fecha': response.results[i].Fecha,
+                  'observaciones': response.results[i].Observaciones,
+                  'Estatus': response.results[i].Estatus,
+                  'cXMl': response.results[i].cXMl,
+                  'UUID': response.results[i].UUID,
+                  'RFC': response.results[i].RFC,
+                  'serie': response.results[i].Serie,
+                  'RFCReceptor': response.results[i].RFCReceptor,
+                  'Total': response.results[i].Total,
+                  'cVerificada': response.results[i].CVerificada
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('alm_FacturasProveedor/'+response.results[i].IdFacturaProveedor);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);
+               
+            }
+          });          
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }         
+      },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();    
+  }
+
+
+  $('#butSubirFacturas_SQL_FB').click( function() { 
+    fnSubir_Facturas_SQL_FB();
+  });
+
+
+
+ function fnSubir_DETFactura_SQL_FB(){
+    fnCargando();
+    console.log ('Subir detalle de facturas electronica de SQL a FireBase '); 
+
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/FacturaDetallesFE",
+      type: "GET",
+      // tell jQuery we're expecting JSONP
+      dataType: "json",
+      // work with the response
+      success: function( response ) {
+        console.log( response );
+        $('#results').append('<p>Testing FacturaDetalleFE Service...</p>').append('<code>'+ JSON.stringify(response) +'</code>');
+
+          try{    
+            db.transaction(function (tx) { 
+            for (var i in response.results) {
+              console.log(i);
+
+                var vlObjeto ={
+                    'idFacturaProveedor': response.results[i].IdFacturaProveedor,
+                    'idFacturaProveedordet_fe': response.results[i].IdFacturaProveedordet_fe,
+                    'Descripcion': response.results[i].Descripcion,
+                    'Unidad': response.results[i].Unidad,
+                    'ClaveUnidad': response.results[i].ClaveUnidad,
+                    'Cantidad': response.results[i].Cantidad,                    
+                    'ClaveProdServ': response.results[i].ClaveProdServ,
+                    'Importe': response.results[i].Importe,
+                    'ValorUnitario': response.results[i].ValorUnitario,
+                    'NoIdentificacion': response.results[i].NoIdentificacion,
+                    'cVerificado': response.results[i].CVerificado
+                };
+
+                var ruta='alm_FacturasProveedor/'+response.results[i].IdFacturaProveedor+"/"+ response.results[i].IdFacturaProveedordet_fe;
+                console.log(ruta);        
+                var dfeListRef = appFB.database().ref(ruta);                    
+                console.log(vlObjeto);
+                //var newDfERef = dfeListRef.push();                              
+                //newDfERef.set(vlObjeto);
+                dfeListRef.set(vlObjeto);
+            }
+          });       
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }
+     },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();    
+  }
+
+  $('#butSubirDETFE_SQL_FB').click( function() { 
+    fnSubir_DETFactura_SQL_FB();
+  }); 
+
+
+
+  function fnSubir_Proveedores_SQL_FB(){
+    fnCargando();
+    console.log ('Subir Proveedores de SQL a FireBase '); 
+    $.ajax({
+      headers: getHeaders(),
+      url: serviceUrl + "MyService.svc/Proveedores",
+      type: "GET",
+      dataType: "json",
+      success: function( response ) {
+        console.log( response );
+        try{
+          db.transaction(function (tx) { 
+            for (var i in response.results) {              
+              console.log(i);             
+                var vlObjeto ={
+                  'RFC': response.results[i].RFC
+                  ,'Nombre': response.results[i].Nombre
+
+                  // ,'ApellidoPaterno': response.results[i]..ApellidoPaterno
+                  // ,'ApellidoMaterno': response.results[i]..ApellidoMaterno
+                  // ,'Correo': response.results[i]..Correo
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('ctl_Proveedores/'+response.results[i].RFC);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);               
+            }
+          });       
+        } catch(e) {
+          alert("Error processing SQL: "+ e.message);
+          return;
+        }
+     },
+      error: function (xhr) { console.log(xhr.responseText); }
+    });
+    fnQuitarCargando();   
+  }
+
+  $('#butSubirProveedores_SQL_FB').click( function() { 
+    fnSubir_Proveedores_SQL_FB();
+  });
+
+
+  $('#butSubir_Todo_SQL_FB').click( function() { 
+    fnSubir_Proveedores_SQL_FB();
+    fnSubir_Facturas_SQL_FB();
+    fnSubir_DETFactura_SQL_FB();    
+  });
+
+
 
  function fnBajar_Facturas_FB(){
     fnCargando();    
@@ -853,15 +1243,16 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
 
   function fnBorrar_Proveedores_FB(){
     fnCargando();
-    var ListRef = appFB.database().ref('Proveedores' );
+    var ListRef = appFB.database().ref('ctl_Proveedores' );
     ListRef.once('value').then(function(snapshotList) {
       snapshotList.forEach(function(snapshotItem) {
         var vlRuta = "";
-        vlRuta= "/Proveedores/" + snapshotItem.key;    
+        vlRuta= "/ctl_Proveedores/" + snapshotItem.key;    
         console.log(vlRuta);
         var productoRef = appFB.database().ref(vlRuta);
         productoRef.remove();        
       });
+      alert("Proveedores borradas con exito");
     });
     fnQuitarCargando();
   }
@@ -870,25 +1261,92 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
     fnBorrar_Proveedores_FB();
   });
 
+  function fnBorrar_Presentaciones_FB(){
+    fnCargando();
+    var ListRef = appFB.database().ref('Presentaciones' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/Presentaciones/" + snapshotItem.key;    
+        console.log(vlRuta);
+        var vlRef = appFB.database().ref(vlRuta);
+        vlRef.remove();        
+      });
+      alert("Presentaciones borradas con exito");
+    });
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarPresentacionesFB').click( function() {
+    fnBorrar_Presentaciones_FB();
+  });
+
+  function fnBorrar_Productos_FB(){
+    fnCargando();
+    var ListRef = appFB.database().ref('Productos' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/Productos/" + snapshotItem.key;    
+        console.log(vlRuta);
+        var vlRef = appFB.database().ref(vlRuta);
+        vlRef.remove();        
+      });
+      alert("Facturas Productos con exito");
+    });
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarProductosFB').click( function() {
+    fnBorrar_Productos_FB();
+  });
+
+
+  function fnBorrar_CodigosdeBarras_FB(){
+    fnCargando();
+    var ListRef = appFB.database().ref('CodigosdeBarras' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {
+        var vlRuta = "";
+        vlRuta= "/CodigosdeBarras/" + snapshotItem.key;
+        console.log(vlRuta);
+        var vlRef = appFB.database().ref(vlRuta);
+        vlRef.remove();        
+      });
+      alert("CodigosdeBarras borrados con exito");
+    });
+    fnQuitarCargando();
+  }
+
+  $('#butBorrarCodigosdeBarrasFB').click( function() {
+    fnBorrar_CodigosdeBarras_FB();
+  });
+
 
   $('#butCountWebSQL').click( function() { 
     fnCargando();
     var vlStr ="";
     try{
       db.transaction(function (tx) {  
-        var vlsql=  "SELECT count(*) Cantidad FROM alm_FacturasProveedor ";
+        var vlsql=  "SELECT 'alm_FacturasProveedor' Tabla, count(*) Cantidad FROM alm_FacturasProveedor ";
+          vlsql +=  "UNION SELECT 'alm_FacturasProveedorDet_FacturaElectronia' Tabla, count(*) Cantidad FROM alm_FacturasProveedorDet_FacturaElectronia ";
+          vlsql +=  "UNION SELECT 'alm_FacturasProveedorDet_ADDENDA' Tabla, count(*) Cantidad FROM alm_FacturasProveedorDet_ADDENDA ";          
+          vlsql +=  "UNION SELECT 'ctl_Proveedores' Tabla, count(*) Cantidad FROM ctl_Proveedores ";
+          vlsql +=  "UNION SELECT 'ctl_Productos' Tabla, count(*) Cantidad FROM ctl_Productos ";
+          vlsql +=  "UNION SELECT 'ctl_Presentaciones' Tabla, count(*) Cantidad FROM ctl_Presentaciones ";
+          vlsql +=  "UNION SELECT 'ctl_CodigosdeBarras' Tabla, count(*) Cantidad FROM ctl_CodigosdeBarras ";                    
         console.log(vlsql);
         try{
           tx.executeSql(vlsql, [] , function (tx, results) {
             var len = results.rows.length, i;
             console.log( len);
             if (len >0) {
-              for (i = 0; i < len; i++) {
-                   vlStr ="";
-                   vlStr = vlStr.concat("alm_FacturasProveedor: ", results.rows.item(i).Cantidad)                   
-                   vlStr = vlStr + String.fromCharCode(10) ;
-                   alert (vlStr );
+              vlStr ="";
+              for (i = 0; i < len; i++) {                  
+                 vlStr = vlStr.concat(results.rows.item(i).Tabla,':', results.rows.item(i).Cantidad)                   
+                 vlStr = vlStr + String.fromCharCode(10);
               }
+              alert (vlStr );
             }
           }); 
         } catch(e) {
@@ -900,65 +1358,408 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
       alert("2 Error processing SQL: "+ e.message);
       return;
     }
-
-
-    try{
-      db.transaction(function (tx) {  
-        var vlsql=  "SELECT count(*) Cantidad FROM ctl_Proveedores ";
-        console.log(vlsql);
-        try{
-          tx.executeSql(vlsql, [] , function (tx, results) {
-            var len = results.rows.length, i;
-            console.log( len);
-            if (len >0) {
-              for (i = 0; i < len; i++) {               
-                vlStr ="";
-                vlStr = vlStr.concat("ctl_Proveedores:",results.rows.item(i).Cantidad)                   
-                alert (vlStr );
-              }
-            }
-          }); 
-        } catch(e) {
-          alert(" 1 Error processing SQL: "+ e.message);
-          return;
-        }
-      });             
-    } catch(e) {
-      alert("2 Error processing SQL: "+ e.message);
-      return;
-    }
-
-
-    
-    try{
-      db.transaction(function (tx) {  
-        var vlsql=  "SELECT count(*) Cantidad FROM alm_FacturasProveedorDet_FacturaElectronia ";
-        console.log(vlsql);
-        try{
-          tx.executeSql(vlsql, [] , function (tx, results) {
-            var len = results.rows.length, i;
-            console.log( len);
-            if (len >0) {
-              for (i = 0; i < len; i++) {               
-                   vlStr ="";
-                   vlStr = vlStr.concat("alm_FacturasProveedorDet_FacturaElectronia:",results.rows.item(i).Cantidad)                   
-                   alert (vlStr );
-              }
-            }
-          }); 
-        } catch(e) {
-          alert(" 1 Error processing SQL: "+ e.message);
-          return;
-        }
-      });             
-    } catch(e) {
-      alert("2 Error processing SQL: "+ e.message);
-      return;
-    }
-
     
     fnQuitarCargando();
   }); 
+
+
+
+  $('#butEjecutarInsutruccionWebSQL').click( function() {
+    fnCargando();
+    var vlSql =" ALTER TABLE  alm_FacturasProveedorDet_ADDENDA ADD Observaciones;";
+    try{    
+      db.transaction(function (tx) { 
+        console.log( vlSql );
+        tx.executeSql(vlSql,[]);                          
+      });       
+    } catch(e) {
+      alert("Error processing SQL: "+ e.message);
+      return;
+    };
+    fnQuitarCargando();
+  });
+
+
+  function fnSubir_Verificaciones_FB(){
+    fnCargando();
+    console.log ('Subir Verificaciones a FireBase '); 
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT idFacturaProveedor ,idFacturaProveedordet_fe ,cVerificado ,IFNULL(Observaciones,'') Observaciones ";
+        vlsql += "FROM alm_FacturasProveedorDet_FacturaElectronia where IFNULL(cVerificado,'') <> '' ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                var vlObjeto ={
+                  'idFacturaProveedordet_fe': results.rows.item(i).idFacturaProveedordet_fe,
+                  'idFacturaProveedor': results.rows.item(i).idFacturaProveedor,
+                  'cVerificado': results.rows.item(i).cVerificado,
+                  'Observaciones': results.rows.item(i).Observaciones                  
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('Verificaciones/'+results.rows.item(i).idFacturaProveedordet_fe);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);
+               
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT idFacturaProveedor ,idFacturaProveedordet_fe ,cVerificado ,IFNULL(Observaciones,'') Observaciones ";
+        vlsql += "FROM alm_FacturasProveedorDet_FacturaElectronia where IFNULL(cVerificado,'') <> '' ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                var vlObjeto ={
+                  'idFacturaProveedordet_fe': results.rows.item(i).idFacturaProveedordet_fe,
+                  'idFacturaProveedor': results.rows.item(i).idFacturaProveedor,
+                  'cVerificado': results.rows.item(i).cVerificado,
+                  'Observaciones': results.rows.item(i).Observaciones                  
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('Verificaciones/'+results.rows.item(i).idFacturaProveedordet_fe);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);
+               
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT idFacturaProveedor ,cVerificada ,IFNULL(observaciones,'') observaciones ";
+        vlsql += "FROM alm_FacturasProveedor where IFNULL(cVerificada,'') <> '' ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                var vlObjeto ={
+                  'IdFacturaProveedor': results.rows.item(i).idFacturaProveedor,
+                  'CVerificada': results.rows.item(i).cVerificada,
+                  'Observaciones': results.rows.item(i).observaciones                  
+                };                
+                console.log(vlObjeto);
+                var facListRef = appFB.database().ref('VerificacionesEncabezado/'+results.rows.item(i).idFacturaProveedor);
+                //var newDetalleDentradaRef = facListRef.push();                  
+                //newDetalleDentradaRef.set(vlObjeto);
+                facListRef.set(vlObjeto);               
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+
+
+    fnQuitarCargando();     
+  }
+
+  $('#butSubirVerificaciones_FB').click( function() {
+    fnCargando();
+    fnSubir_Verificaciones_FB();        
+    fnQuitarCargando();
+  });
+
+
+
+  function fnBajar_Verificaciones_FB_SQL(){
+    fnCargando();
+    console.log ('Bajar det Facturas  de FireBase  a SQL');    
+    
+    var ListRef = appFB.database().ref('Verificaciones' );
+    ListRef.once('value').then(function(snapshotList) {
+      snapshotList.forEach(function(snapshotItem) {    
+      var childKey = snapshotItem.key;
+      var childData = snapshotItem.val();
+      if (childData.idFacturaProveedordet_fe){
+        console.log(childData);              
+        var vlIdFacturaProveedor ="";
+        var vlIdFacturaProveedordet_fe ="";
+        var vlCVerificado = "";
+        var vlObservaciones ="";
+        var vlUsuario ="";
+        var vlFecha  = "";
+        var d = new Date();        
+
+        vlIdFacturaProveedor = String(childData.idFacturaProveedor) ;
+        vlIdFacturaProveedordet_fe = String(childData.idFacturaProveedordet_fe) ;
+        vlCVerificado = String(childData.cVerificado);
+        vlObservaciones =  String(childData.Observaciones) ;
+        vlUsuario =  String(app.user) ;
+        vlFecha = String  (d.getFullYear() + "" + 
+            ("00" + (d.getMonth() + 1)).slice(-2) + "" + 
+            ("00" + d.getDate()).slice(-2) + " " +     
+            ("00" + d.getHours()).slice(-2) + ":" + 
+            ("00" + d.getMinutes()).slice(-2) + ":" + 
+            ("00" + d.getSeconds()).slice(-2) ); 
+
+        // vlIdFacturaProveedor = vlIdFacturaProveedor.trim()
+        // vlIdFacturaProveedordet_fe = vlIdFacturaProveedordet_fe.trim()
+        // vlCVerificado = vlCVerificado.trim()
+        // vlObservaciones = vlObservaciones.trim()
+        // vlUsuario = vlUsuario.trim()
+
+        console.log("guardando");
+
+        console.log ( JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,IdFacturaProveedordet_fe:vlIdFacturaProveedordet_fe,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha } ));
+        $.ajax({
+          headers: getHeaders(),
+          url: app.serviceUrl + "MyService.svc/UpdateVerificacion",
+          contentType: "application/json",
+          dataType: "json",
+          type: "POST",
+          data: JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,IdFacturaProveedordet_fe:vlIdFacturaProveedordet_fe,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha} ),
+          success: function (response) {
+            console.log(response); // server response
+            
+          },
+          error: function (xhr) { console.log(xhr.responseText); }
+        });
+      };
+     });
+    });
+
+
+    var ListRef1 = appFB.database().ref('VerificacionesEncabezado' );
+    ListRef1.once('value').then(function(snapshotList1) {
+      snapshotList1.forEach(function(snapshotItem1) {    
+      var childKey1 = snapshotItem1.key;
+      var childData1 = snapshotItem1.val();
+      console.log(childData1);              
+      if (childData1.IdFacturaProveedor){
+        var vlIdFacturaProveedor ="";
+        var vlCVerificado = "";
+        var vlObservaciones ="";
+        var vlUsuario ="";
+        var vlFecha  = "";
+        var d = new Date();        
+
+        vlIdFacturaProveedor = String(childData1.IdFacturaProveedor) ;
+        vlCVerificado = String(childData1.CVerificada);
+        vlObservaciones =  String(childData1.Observaciones) ;
+        vlUsuario =  String(app.user) ;
+        vlFecha = String  (d.getFullYear() + "" + 
+            ("00" + (d.getMonth() + 1)).slice(-2) + "" + 
+            ("00" + d.getDate()).slice(-2) + " " +     
+            ("00" + d.getHours()).slice(-2) + ":" + 
+            ("00" + d.getMinutes()).slice(-2) + ":" + 
+            ("00" + d.getSeconds()).slice(-2) ); 
+
+        // vlIdFacturaProveedor = vlIdFacturaProveedor.trim()
+        // vlIdFacturaProveedordet_fe = vlIdFacturaProveedordet_fe.trim()
+        // vlCVerificado = vlCVerificado.trim()
+        // vlObservaciones = vlObservaciones.trim()
+        // vlUsuario = vlUsuario.trim()
+
+        console.log("guardando");
+
+        console.log ( JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha } ));
+        $.ajax({
+          headers: getHeaders(),
+          url: app.serviceUrl + "MyService.svc/UpdateVerificacionEncabezadoFE",
+          contentType: "application/json",
+          dataType: "json",
+          type: "POST",
+          data: JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha} ),
+          success: function (response) {
+            console.log(response); // server response
+            
+          },
+          error: function (xhr) { console.log(xhr.responseText); }
+        });
+      };
+     });
+    });
+
+
+    fnQuitarCargando();  
+   }
+
+
+
+
+
+
+  $('#butBajarVerificacionesFB_SQL').click( function() {
+    fnCargando();
+    fnBajar_Verificaciones_FB_SQL();        
+    fnQuitarCargando();
+  });
+
+
+
+
+
+  function fnActualizar_Verificaciones_WSQL_SQL(){
+    fnCargando();
+    console.log ('Bajar verificaciones  de FireBase  a SQL');    
+    
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT idFacturaProveedor ,idFacturaProveedordet_fe ,cVerificado ,IFNULL(Observaciones,'') Observaciones ";
+        vlsql += "FROM alm_FacturasProveedorDet_FacturaElectronia where IFNULL(cVerificado,'') <> '' ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                console.log( results.rows.item(i));
+                var vlIdFacturaProveedor ="";
+                var vlIdFacturaProveedordet_fe ="";
+                var vlCVerificado = "";
+                var vlObservaciones ="";
+                var vlUsuario ="";
+                var vlFecha  = "";
+                var d = new Date();
+
+                vlIdFacturaProveedor = String(results.rows.item(i).idFacturaProveedor) ;
+                vlIdFacturaProveedordet_fe = String(results.rows.item(i).idFacturaProveedordet_fe) ;
+                vlCVerificado = String(results.rows.item(i).cVerificado);
+                vlObservaciones =  String(results.rows.item(i).Observaciones) ;
+                vlUsuario =  String(app.user); 
+                vlFecha = String  (d.getFullYear() + "" + 
+                    ("00" + (d.getMonth() + 1)).slice(-2) + "" + 
+                    ("00" + d.getDate()).slice(-2) + " " +     
+                    ("00" + d.getHours()).slice(-2) + ":" + 
+                    ("00" + d.getMinutes()).slice(-2) + ":" + 
+                    ("00" + d.getSeconds()).slice(-2) );                
+                console.log ( JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,IdFacturaProveedordet_fe:vlIdFacturaProveedordet_fe,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha } ));
+                $.ajax({
+                  headers: getHeaders(),
+                  url: app.serviceUrl + "MyService.svc/UpdateVerificacion",
+                  contentType: "application/json",
+                  dataType: "json",
+                  type: "POST",
+                  data: JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,IdFacturaProveedordet_fe:vlIdFacturaProveedordet_fe,CVerificado:vlCVerificado,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha} ),
+                  success: function (response) {
+                    console.log(response); // server response
+                    
+                  },
+                  error: function (xhr) { console.log(xhr.responseText); }
+                });
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+
+
+    try{
+      db.transaction(function (tx) {  
+        var vlsql=  "SELECT idFacturaProveedor ,cVerificada ,IFNULL(observaciones,'') observaciones ";
+        vlsql += "FROM alm_FacturasProveedor where IFNULL(cVerificada,'') <> '' ";
+        console.log(vlsql);
+        try{
+          tx.executeSql(vlsql, [] , function (tx, results) {
+            var len = results.rows.length, i;
+            console.log( len);
+            if (len >0) {
+              for (i = 0; i < len; i++) {               
+                console.log( results.rows.item(i));
+                var vlIdFacturaProveedor ="";
+                var vlCVerificada= "";
+                var vlObservaciones ="";
+                var vlUsuario ="";
+                var vlFecha  = "";
+                var d = new Date();
+
+                vlIdFacturaProveedor = String(results.rows.item(i).idFacturaProveedor) ;
+                vlCVerificada = String(results.rows.item(i).cVerificada);
+                vlObservaciones =  String(results.rows.item(i).observaciones) ;
+                vlUsuario =  String(app.user); 
+                vlFecha = String  (d.getFullYear() + "" + 
+                    ("00" + (d.getMonth() + 1)).slice(-2) + "" + 
+                    ("00" + d.getDate()).slice(-2) + " " +     
+                    ("00" + d.getHours()).slice(-2) + ":" + 
+                    ("00" + d.getMinutes()).slice(-2) + ":" + 
+                    ("00" + d.getSeconds()).slice(-2) );                
+                console.log ( JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,CVerificado:vlCVerificada,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha } ));
+                $.ajax({
+                  headers: getHeaders(),
+                  url: app.serviceUrl + "MyService.svc/UpdateVerificacionEncabezadoFE",
+                  contentType: "application/json",
+                  dataType: "json",
+                  type: "POST",
+                  data: JSON.stringify( {IdFacturaProveedor:vlIdFacturaProveedor,CVerificado:vlCVerificada,Observaciones:vlObservaciones ,Usuario:vlUsuario ,Fecha:vlFecha} ),
+                  success: function (response) {
+                    console.log(response); 
+                    
+                  },
+                  error: function (xhr) { console.log(xhr.responseText); }
+                });
+              }
+            }
+          }); 
+        } catch(e) {
+          alert(" 1 Error processing SQL: "+ e.message);
+          return;
+        }
+      });             
+    } catch(e) {
+      alert("2 Error processing SQL: "+ e.message);
+      return;
+    }
+
+    fnQuitarCargando();  
+   }
+
+
+
+  $('#butEnviarVerificacionesWSQL_SQL').click( function() {
+    fnCargando();
+    fnActualizar_Verificaciones_WSQL_SQL();        
+    fnQuitarCargando();
+  });
+
 
 
 
@@ -970,3 +1771,4 @@ function fnBajarFacturaDetallesADDENDA_SQL(){
       app.container.removeAttribute('hidden');   
       app.isLoading = false;
     }
+

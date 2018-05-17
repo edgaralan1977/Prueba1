@@ -57,13 +57,15 @@
              <input type="text" id="inputRFCProveedor"  class="form-control" >
              <input type="text" id="descripcionProveedor"  class="form-control"  disabled>
 		        </div>		     
-            <div class="divFacturaProveedor">
-               <label for="inputFacturaProveedor">Factura Proveedor:</label>
-               <input type="text" id="inputFacturaProveedor"  class="form-control" >               
+            <div class="divSerie">
+               <label for="inputSerie">Serie:</label>
+               <input type="text" id="inputSerie"  class="form-control"  disabled>               
             </div>  
-    	      <button  type="button" class="btn btn-primary" id= "butBuscar">Buscar</button>          
-          </div>          
-          <div class="card cardTemplate articulo-forecast form-group " > 
+            <div class="divfolio">
+               <label for="inputFolio">Folio:</label>
+               <input type="text" id="inputFolio"  class="form-control" disabled>               
+            </div>  
+
             <div class="divUUID">
                <label for="inputUUID">UUID:</label>
                <input type="text" id="inputUUID"  class="form-control"   disabled>
@@ -71,10 +73,6 @@
             <div class="divFecha">         
                <label for="inputFecha">Fecha:</label>
                <input type="text" id="inputFecha"  class="form-control"  disabled>
-            </div>
-            <div class="divObservaciones">
-              <label for="inputObservaciones">Observaciones:</label>
-              <input type="text" id="inputObservaciones"  class="form-control" disabled >
             </div>
   <!--           <div class="divSubTotal">
               <label for="inputSubTotal">SubTotal:</label>
@@ -87,8 +85,21 @@
             <div class="divTotal">
               <label for="inputTotal">Total:</label>
               <input type="text" id="inputTotal"  class="form-control" disabled>
-            </div>          
-            
+            </div>                      
+            <div class="divcVerificado">
+              <label for="inputcVerificado">Verificado:</label>
+              <!-- <input type="text" id="inputcVerificado"  class="form-control" > -->
+              <select class="form-control" id="inputcVerificado" >
+                <option value ="S">Sin Verificar</option>
+                <option value ="V">Verificado</option>
+                <option value ="D">Diferencia</option>
+              </select>                
+            </div>
+            <div class="divObservaciones">
+              <label for="inputObservaciones">Observaciones:</label>
+              <input type="text" id="inputObservaciones"  class="form-control" disabled >
+            </div>
+
             <br>
 
             <!-- <button  type="button" class="btn btn-primary" id= "butGuardar" >Guardar</button> -->
@@ -97,8 +108,9 @@
           <button  type="button" class="btn btn-primary" id= "butListarDetFE">Detalle Fact. Elect.</button>
           <button  type="button" class="btn btn-primary" id= "butListarDetADD">Detalle ADDENDA</button>
           <button  type="button" class="btn btn-primary" id= "butListarFacturas">Listar Facturas</button>
-
-
+          <button  type="button" class="btn btn-primary" id= "butGuardar" >Guardar</button>
+          <br>
+          <br>
         </div>
       </form>
     </div>

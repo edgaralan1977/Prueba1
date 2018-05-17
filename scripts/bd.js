@@ -79,7 +79,7 @@ database.initDB();
 
     try{
       db.transaction(function (tx) {              
-        tx.executeSql("CREATE TABLE IF NOT EXISTS alm_FacturasProveedorDet_ADDENDA (id INTEGER PRIMARY KEY AUTOINCREMENT, idFacturasProveedorDet_ADDENDA ,  idFacturaProveedor ,  Lote ,FechaCaducidad , Cantidad  ,codigo_barras ,precio ,ClaveOficialSSA ,ClavePresentacionSSA ,cVerificado, dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS alm_FacturasProveedorDet_ADDENDA (id INTEGER PRIMARY KEY AUTOINCREMENT, idFacturasProveedorDet_ADDENDA ,  idFacturaProveedor ,  Lote ,FechaCaducidad , Cantidad  ,codigo_barras ,precio ,ClaveOficialSSA ,ClavePresentacionSSA ,cVerificado ,Observacioens , dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))");
       });   
     } catch(e) {
       alert("Error processing SQL: "+ e.message);
@@ -88,11 +88,10 @@ database.initDB();
 
     try{
       db.transaction(function (tx) {              
-        tx.executeSql("CREATE TABLE IF NOT EXISTS alm_FacturasProveedorDet_FacturaElectronia (id INTEGER PRIMARY KEY AUTOINCREMENT, idFacturaProveedor ,idFacturaProveedordet_fe ,Descripcion ,Unidad ,ClaveUnidad ,Cantidad ,ClaveProdServ ,Importe ,ValorUnitario ,NoIdentificacion  ,cVerificado, dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS alm_FacturasProveedorDet_FacturaElectronia (id INTEGER PRIMARY KEY AUTOINCREMENT, idFacturaProveedor ,idFacturaProveedordet_fe ,Descripcion ,Unidad ,ClaveUnidad ,Cantidad ,ClaveProdServ ,Importe ,ValorUnitario ,NoIdentificacion  ,cVerificado,Observaciones , dFechaCaptura TIMESTAMP DEFAULT (datetime('now','localtime')))");
       });           
     } catch(e) {
       alert("Error processing SQL: "+ e.message);
-
     }
 
 

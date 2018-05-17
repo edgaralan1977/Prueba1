@@ -48,34 +48,34 @@
        <form  id="myForm" role="form">
           <div class="card cardTemplate articulo-forecast form-group">          
             <div class="divProvedor">
-               <label for="inputProveedor">Proveedor:</label>
+               <label for="inputProveedor">Proveedor: </label>
                <input type="hidden" id="KEYPRoveedor" value="" >
                <input type="text" id="inputProveedor"  class="form-control"  disabled >
                <input type="text" id="DescripcionProveedor"  class="form-control" disabled>                
             </div> 
             <div class="divFolio">
-               <label for="inputFolio">Folio:</label>
+               <label for="inputFolio">Folio: </label>
                <input type="text" id="inputFolio"  class="form-control"  disabled >
             </div>
           </div> 
           <div class="card cardTemplate articulo-forecast form-group">          
             <div class="divClaveOficialSSA">
-              <label for="inputClaveOficialSSA">ClaveOficialSSA:</label>
+              <label for="inputClaveOficialSSA">Clave: </label>
               <input type="text" id="inputClaveOficialSSA"  class="form-control" disabled>
               <input type="text" id="inputDescripcionClaveOficialSSA"  class="form-control" disabled>
             </div>
             <div class="divClavePresentacionSSA">
-              <label for="inputClavePresentacionSSA">ClavePresentacionSSA:</label>
+              <label for="inputClavePresentacionSSA">Clave Presentacion: </label>
               <input type="text" id="inputClavePresentacionSSA"  class="form-control" disabled>
               <input type="text" id="inputDescripcionPresentacionSSA"  class="form-control" disabled>              
             </div>
             <div class="divCodigo_barras">         
-               <label for="inputCodigo_barras">Codigo de Barras:</label>
+               <label for="inputCodigo_barras">Codigo de Barras: </label>
                <input type="text" id="inputCodigo_barras"  class="form-control"  disabled >
                <input type="text" id="inputDescripcionCodigo_barras"  class="form-control"  disabled >
             </div>
             <div class="divLote">
-              <label for="inputLote">Lote:</label>
+              <label for="inputLote">Lote: </label>
               <input type="text" id="inputLote"  class="form-control" disabled >
             </div>
             <div class="divFechaCaducidad">
@@ -83,18 +83,25 @@
                <input type="text" id="inputFechaCaducidad"  class="form-control"  disabled >
             </div>
             <div class="divCantidad">
-               <label for="inputCantidad">Cantidad:</label>
+               <label for="inputCantidad">Cantidad: </label>
                <input type="text" id="inputCantidad"  class="form-control"  disabled >
             </div>  
             <div class="divPrecio">
-              <label for="inputPrecio">Precio:</label>
+              <label for="inputPrecio">Precio: </label>
               <input type="text" id="inputPrecio"  class="form-control" disabled>
             </div>          
+            <div class="divObservaciones">
+              <label for="inputObservaciones">Observaciones: </label>
+              <input type="text" id="inputObservaciones"  class="form-control" >
+            </div>            
             <div class="divcVerificado">
-              <label for="inputcVerificado">Verificado:</label>
-              <!-- <input type="text" id="inputcVerificado"  class="form-control" > -->
-              <input type="checkbox" id="inputcVerificadoCheck"  class="form-control" >              
-            </div>
+              <label for="inputcVerificado">Verificado: </label>
+              <select class="form-control" id="inputcVerificado" >
+                <option value ="S">Sin Verificar</option>
+                <option value ="V">Verificado</option>
+                <option value ="D">Diferencia</option>
+              </select>                
+            </div>  
             <br>
             <button  type="button" class="btn btn-primary" id= "butListarDetalleFactura">ListarDetalle</button>
             <button  type="button" class="btn btn-primary" id= "butFactura">Factura</button>          
